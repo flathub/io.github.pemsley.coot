@@ -127,8 +127,8 @@ modules:
   - name: boost
     buildsystem: simple
     build-commands:
-      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr --with-libraries=system,python,regex,thread,serialization,iostreams,program_options --prefix=/app --libdir=/app/lib
-      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12 -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
+      - ./bootstrap.sh --without-icu --with-python=python3.11 --with-python-root=/usr --with-libraries=system,python,regex,thread,serialization,iostreams,program_options --prefix=/app --libdir=/app/lib
+      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.11 -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
       cflags: "-fPIC"
       cxxflags: "-fPIC -std=c++14"
@@ -267,7 +267,7 @@ modules:
     config-opts:
       - -DCatch2_DIR=/app
       - -DPYTHON_EXECUTABLE=/usr/bin/python3
-      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.12
+      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.11
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
