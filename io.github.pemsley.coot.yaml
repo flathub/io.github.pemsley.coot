@@ -4,14 +4,12 @@ runtime-version: "46"
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
-  - --socket=wayland
-  - --socket=fallback-x11
+  - --socket=x11
   - --share=ipc
   - --device=dri
   - --filesystem=home
   - --share=network
   - --env=COOT_PREFIX=/app/share/coot
-  - --env=LD_LIBRARY_PATH=/app/lib
 cleanup:
   - /include
   - /lib/pkgconfig
