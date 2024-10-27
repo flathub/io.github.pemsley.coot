@@ -11,6 +11,7 @@ finish-args:
   - --filesystem=home
   - --share=network
   - --env=COOT_PREFIX=/app/share/coot
+  - --env=PYTHONPATH=${PYTHONPATH}:/app/share/coot/python
   - --env=LD_LIBRARY_PATH=/app/lib
 cleanup:
   - /include
@@ -323,6 +324,7 @@ modules:
       - mv monomers-ccp4-9.0.000 monomers
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
+      - cp -r python/ ${FLATPAK_DEST}/share/coot/
       - install -Dm644 io.github.pemsley.coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
