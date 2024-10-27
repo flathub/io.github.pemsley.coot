@@ -10,6 +10,7 @@ finish-args:
   - --filesystem=home
   - --share=network
   - --env=COOT_PREFIX=/app/share/coot
+  - --env=GDK_DEBUG=gl-glx  # for enabling openGL on NVIDIA GPUs
 cleanup:
   - /include
   - /lib/pkgconfig
