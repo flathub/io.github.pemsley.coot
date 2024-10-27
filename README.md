@@ -4,7 +4,7 @@ There are many tools for model manipulation and building, such as minimization, 
 _Coot_ is used by scientists using X-ray crystallography or cryo-EM for analysis of proteins, electron density maps, protein interactions and drug design.
 
 This repo hosts the flatpak wrapper for [_Coot_](https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/), available at [Flathub](https://flathub.org/ja/apps/io.github.pemsley.coot).
-Coot is avtively under development at the [upstream repo](https://github.com/pemsley/coot) by @pemsley.
+_Coot_ is under active development at the [upstream repo](https://github.com/pemsley/coot) by Paul Emsley.
 
 ## Installation
 
