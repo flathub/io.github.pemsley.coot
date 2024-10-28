@@ -318,6 +318,8 @@ modules:
       - --with-rdkit-prefix=/app
       - --with-enhanced-ligand-tools
       - --with-guile
+      - --with-backward
+      - --with-libdw
     build-options:
       env:
         GLM_CFLAGS: "-I/app/include"
