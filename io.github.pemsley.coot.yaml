@@ -335,7 +335,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        branch: main
+        commit: 89651763d39c7995bcc05e3b6ac35864224c9b77
       - type: file
         path: io.github.pemsley.coot.svg
       - type: patch
