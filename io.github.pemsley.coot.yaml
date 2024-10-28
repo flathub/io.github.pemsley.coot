@@ -333,9 +333,9 @@ modules:
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
-      - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/source/releases/coot-1.1.10.tar.gz
-        sha256: 447caa7bdd6f87b738d20f8db15aa278476c308e22506004ed145e04f85e0413
+      - type: git
+        url: https://github.com/pemsley/coot.git
+        branch: main
       - type: file
         path: io.github.pemsley.coot.svg
       - type: patch
