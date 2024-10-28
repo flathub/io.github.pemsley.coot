@@ -9,11 +9,12 @@ finish-args:
   - --device=dri
   - --filesystem=home
   - --share=network
+  - --env=GDK_CORE_DEVICE_EVENTS=1
   - --env=COOT_PREFIX=/app/share/coot
   - --env=PYTHONPATH=${PYTHONPATH}:/app/share/coot/python
   # For enabling openGL on NVIDIA GPUs
   # Refer to https://gitlab.gnome.org/GNOME/gtk/-/issues/6772
-  - --env=GDK_DEBUG=gl-glx  
+  - --env=GDK_DEBUG=gl-glx
 cleanup:
   - /include
   - /lib/pkgconfig
