@@ -9,7 +9,7 @@ finish-args:
   - --device=dri
   - --filesystem=home
   - --share=network
-  - --talk-name=org.freedesktop.portal.Desktop
+  - --env=GDK_CORE_DEVICE_EVENTS=1
   - --env=COOT_PREFIX=/app/share/coot
   - --env=PYTHONPATH=${PYTHONPATH}:/app/share/coot/python
   # For enabling openGL on NVIDIA GPUs
