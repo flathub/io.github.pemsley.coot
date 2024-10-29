@@ -246,6 +246,13 @@ modules:
         url: https://github.com/project-gemmi/gemmi.git
         tag: v0.6.7
 
+  - name: swig
+    buildsystem: autotools
+    sources:
+      - type: git
+        url: https://github.com/swig/swig.git
+        tag: v4.3.0
+
   - name: Catch2
     buildsystem: cmake-ninja
     builddir: true
