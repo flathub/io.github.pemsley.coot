@@ -11,7 +11,24 @@ _Coot_ is under active development at the [upstream repo](https://github.com/pem
 
 ## Installation
 
+There are two types of build for different purposes.
+
+### Stable build
+
+This is the latest stable version. It is suitable for the most people for daily use.
+
 ```shell
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.github.pemsley.coot
 flatpak run io.github.pemsley.coot
+```
+
+### Beta build
+
+**This isn’t meant to be the nightly build, but for the release that has some level of testing and is expected to mostly work and be usable to non-developer end-users.**
+
+```shell
+flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+flatpak install flathub-beta io.github.pemsley.coot
+flatpak run io.github.pemsley.coot//beta
 ```
