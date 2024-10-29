@@ -246,6 +246,13 @@ modules:
         url: https://github.com/project-gemmi/gemmi.git
         tag: v0.6.7
 
+  - name: swig
+    buildsystem: autotools
+    sources:
+      - type: git
+        url: https://github.com/swig/swig.git
+        tag: v4.3.0
+
   - name: Catch2
     buildsystem: cmake-ninja
     builddir: true
@@ -318,6 +325,8 @@ modules:
       - --with-rdkit-prefix=/app
       - --with-enhanced-ligand-tools
       - --with-guile
+      - --with-backward
+      - --with-libdw
     build-options:
       env:
         GLM_CFLAGS: "-I/app/include"
@@ -327,19 +336,13 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
-      - install -Dm644 io.github.pemsley.coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm644 pixmaps/icons/io.github.pemsley.coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
-      - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/source/releases/coot-1.1.10.tar.gz
-        sha256: 447caa7bdd6f87b738d20f8db15aa278476c308e22506004ed145e04f85e0413
-      - type: file
-        path: io.github.pemsley.coot.svg
-      - type: patch
-        path: coot.desktop.patch
-      - type: patch
-        path: coot.appdata.xml.patch
+      - type: git
+        url: https://github.com/pemsley/coot.git
+        commit: 89651763d39c7995bcc05e3b6ac35864224c9b77
       - type: archive
         url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.000.tar.gz
         sha256: 7cc57fffb05202d7e8a407f91809a5b36ac23a1a3795656c662c7bdeaea28f57
