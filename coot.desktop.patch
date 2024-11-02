@@ -1,8 +1,8 @@
 diff --git a/coot.desktop b/coot.desktop
-index 10f1efac8..f8b9d55eb 100644
+index 10f1efac8..1ddcbc847 100644
 --- a/coot.desktop
 +++ b/coot.desktop
-@@ -1,9 +1,10 @@
+@@ -1,9 +1,12 @@
  [Desktop Entry]
  Type=Application
  Name=Coot
@@ -13,6 +13,8 @@ index 10f1efac8..f8b9d55eb 100644
 -Terminal=true
 -Categories=Science;Chemistry;
 +Icon=io.github.pemsley.coot
++StartupWMClass=coot-1
++Comment=Crystallographic Object-Oriented Toolkit
 +Terminal=false
 +Categories=Science;Chemistry;Biology;GTK;
  MimeType=chemical/x-pdb;chemical/x-mmcif;chemical/x-mdl-molfile;
