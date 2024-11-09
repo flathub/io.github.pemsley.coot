@@ -7,7 +7,7 @@ _Coot_ is used by scientists using X-ray crystallography or cryo-EM for analysis
 
 This repo hosts the flatpak wrapper for [_Coot_](https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/), available at [Flathub](https://flathub.org/ja/apps/io.github.pemsley.coot).
 
-_Coot_ is under active development at the [upstream repo](https://github.com/pemsley/coot) by Paul Emsley.
+_Coot_ is under active development at the [upstream repo](https://github.com/pemsley/coot) by Dr. Paul Emsley.
 
 ## Installation
 
@@ -31,4 +31,26 @@ flatpak run io.github.pemsley.coot
 flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 flatpak install flathub-beta io.github.pemsley.coot
 flatpak run io.github.pemsley.coot//beta
+```
+
+## Building
+
+At first, Install `flatpak-builder` using Flatpak.
+
+```shell
+flatpak install flathub org.flatpak.Builder
+```
+
+Then, clone this repo to build the app using `flatpak-builder`.
+
+```shell
+git clone https://github.com/flathub/io.github.pemsley.coot.git
+cd io.github.pemsley.coot
+flatpak run org.flatpak.Builder --force-clean --sandbox --user --install --install-deps-from=flathub --ccache --mirror-screenshots-url=https://dl.flathub.org/media/ --repo=repo builddir io.github.pemsley.coot.yaml
+```
+
+Finally, you can run the app for testing.
+
+```shell
+flatpak run io.github.pemsley.coot
 ```
