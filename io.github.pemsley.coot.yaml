@@ -335,7 +335,7 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
-      - install -Dm644 pixmaps/icons/io.github.pemsley.coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm644 pixmaps/icons/coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
