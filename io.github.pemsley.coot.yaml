@@ -62,6 +62,7 @@ modules:
     config-opts:
       - --enable-shared
       - --disable-static
+      - --disable-fortran
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-6.5.1.tar.gz
