@@ -1,6 +1,6 @@
 app-id: io.github.pemsley.coot
 runtime: org.gnome.Platform
-runtime-version: "46"
+runtime-version: "47"
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
@@ -59,15 +59,14 @@ modules:
 
   - name: libccp4
     buildsystem: autotools
-    subdir: libccp4
     config-opts:
       - --enable-shared
       - --disable-static
       - --disable-fortran
     sources:
       - type: archive
-        url: https://github.com/cctbx/ccp4io/archive/b58c4fb68902e4e6a58f4a585d0722e542516076.tar.gz
-        sha256: f1edc5a830cd4a078eae700e14b1d89612fb7a12318094363642340aafe41af6
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-6.5.1.tar.gz
+        sha256: 280b473d950cdf8837ef66147ec581104298b892399bd856f13b096f2395dbe5
 
   - name: clipper4coot
     buildsystem: autotools
@@ -131,17 +130,17 @@ modules:
   - name: boost
     buildsystem: simple
     build-commands:
-      - ./bootstrap.sh --without-icu --with-python=python3.11 --with-python-root=/usr --with-libraries=system,python,regex,thread,serialization,iostreams,program_options --prefix=/app --libdir=/app/lib
-      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.11 -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
+      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr --with-libraries=system,python,regex,thread,serialization,iostreams,program_options --prefix=/app --libdir=/app/lib
+      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12 -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
       cflags: "-fPIC"
       cxxflags: "-fPIC -std=c++14"
     cleanup:
       - /share/boost
     sources:
-      - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.gz
-        sha256: 0c6049764e80aa32754acd7d4f179fd5551d8172a83b71532ae093e7384e98da
+      - type: git
+        url: https://github.com/boostorg/boost.git
+        tag: boost-1.86.0
 
   - name: libdwarf
     buildsystem: autotools
@@ -245,7 +244,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.6.7
+        tag: v0.7.0
 
   - name: swig
     buildsystem: autotools
@@ -278,7 +277,7 @@ modules:
     config-opts:
       - -DCatch2_DIR=/app
       - -DPYTHON_EXECUTABLE=/usr/bin/python3
-      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.11
+      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.12
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
@@ -286,7 +285,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2023_09_4
+        tag: Release_2024_09_4
       - type: archive
         url: https://github.com/schrodinger/maeparser/archive/refs/tags/v1.3.1.tar.gz
         sha256: a8d80f67d1b9be6e23b9651cb747f4a3200132e7d878a285119c86bf44568e36
@@ -337,13 +336,16 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
-      - install -Dm644 pixmaps/icons/io.github.pemsley.coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm644 pixmaps/icons/coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - desktop-file-edit --set-key=Icon --set-value=${FLATPAK_ID} ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 89651763d39c7995bcc05e3b6ac35864224c9b77
+        commit: 990078d21a18aec63adc8c12a862df837b793130
+      - type: patch
+        path: coot.appdata.xml.patch
       - type: archive
         url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.000.tar.gz
         sha256: 7cc57fffb05202d7e8a407f91809a5b36ac23a1a3795656c662c7bdeaea28f57
