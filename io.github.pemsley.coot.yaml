@@ -11,11 +11,6 @@ finish-args:
   - --share=network
   - --env=GDK_CORE_DEVICE_EVENTS=1
   - --env=COOT_PREFIX=/app
-  # To work around coot python module import errors
-  # - --env=PYTHONPATH=/app/share/coot/python
-  # To enable openGL on NVIDIA GPUs
-  # Refer to https://gitlab.gnome.org/GNOME/gtk/-/issues/6772
-  - --env=GDK_DEBUG=gl-glx
 cleanup:
   - /include
   - /lib/pkgconfig
