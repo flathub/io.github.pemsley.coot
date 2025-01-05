@@ -318,7 +318,6 @@ modules:
     config-opts:
       - --with-boost-libdir=/app/lib
       - --with-rdkit-prefix=/app
-      - --with-enhanced-ligand-tools
       - --with-guile
       - --with-backward
       - --with-libdw
