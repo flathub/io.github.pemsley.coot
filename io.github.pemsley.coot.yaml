@@ -240,7 +240,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.7.0
+        commit: 454d05f812a3d0ab9bbef545aa1a138463860487
 
   - name: swig
     buildsystem: autotools
@@ -338,7 +338,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 990078d21a18aec63adc8c12a862df837b793130
+        commit: d8244a1a012fa5a844a2389ec0fb9bffe7a554c7
       - type: patch
         path: coot.appdata.xml.patch
       - type: archive
