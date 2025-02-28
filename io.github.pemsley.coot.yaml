@@ -338,7 +338,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 23acc25535d5d2662bb9d1bd0dfab54c4474ceec
+        tag: Release-1.1.11
       - type: patch
         path: coot.appdata.xml.patch
       - type: archive
