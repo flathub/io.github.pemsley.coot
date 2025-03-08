@@ -327,7 +327,7 @@ modules:
         GLM_CFLAGS: "-I/app/include"
         GLM_LIBS: "-L/app/lib -lglm"
     post-install:
-      - mv monomers-ccp4-9.0.000 monomers
+      - mv monomers-ccp4-9.0.006 monomers
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
