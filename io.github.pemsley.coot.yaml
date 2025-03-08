@@ -240,7 +240,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.7.0
+        commit: 122048f755839a536c186e519387f7617b76a7bf
 
   - name: swig
     buildsystem: autotools
@@ -338,12 +338,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        tag: Release-1.1.13
+        commit: Release-1.1.13
       - type: patch
         path: coot.appdata.xml.patch
       - type: archive
-        url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.000.tar.gz
-        sha256: 7cc57fffb05202d7e8a407f91809a5b36ac23a1a3795656c662c7bdeaea28f57
+        url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.006.tar.gz
+        sha256: 3143b3aba958f370956961f2c78b70acb8e94f840a3aee7beb9f2668253153b4
         strip-components: 0
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/reference-structures.tar.gz
