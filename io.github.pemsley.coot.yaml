@@ -240,7 +240,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        commit: 454d05f812a3d0ab9bbef545aa1a138463860487
+        commit: 122048f755839a536c186e519387f7617b76a7bf
 
   - name: swig
     buildsystem: autotools
@@ -327,7 +327,7 @@ modules:
         GLM_CFLAGS: "-I/app/include"
         GLM_LIBS: "-L/app/lib -lglm"
     post-install:
-      - mv monomers-ccp4-9.0.000 monomers
+      - mv monomers-ccp4-9.0.006 monomers
       - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data && mv monomers ${FLATPAK_DEST}/share/coot/lib/data
       - mv reference-structures ${FLATPAK_DEST}/share/coot
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
@@ -338,12 +338,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: d8244a1a012fa5a844a2389ec0fb9bffe7a554c7
+        commit: 957d6967df0be0ffbdca939f03afc9e94de95246
       - type: patch
         path: coot.appdata.xml.patch
       - type: archive
-        url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.000.tar.gz
-        sha256: 7cc57fffb05202d7e8a407f91809a5b36ac23a1a3795656c662c7bdeaea28f57
+        url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.006.tar.gz
+        sha256: 3143b3aba958f370956961f2c78b70acb8e94f840a3aee7beb9f2668253153b4
         strip-components: 0
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/reference-structures.tar.gz
