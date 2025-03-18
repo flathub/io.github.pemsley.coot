@@ -237,10 +237,12 @@ modules:
 
   - name: gemmi
     buildsystem: cmake-ninja
+    config-opts:
+      - -DUSE_PYTHON=1
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        commit: 122048f755839a536c186e519387f7617b76a7bf
+        commit: b01123ef241cd7f8e03c7ae2e412081032222799
 
   - name: swig
     buildsystem: autotools
