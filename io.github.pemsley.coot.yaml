@@ -1,6 +1,6 @@
 app-id: io.github.pemsley.coot
 runtime: org.gnome.Platform
-runtime-version: "47"
+runtime-version: "48"  # include python 3.12.9
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
@@ -136,7 +136,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/boostorg/boost.git
-        tag: boost-1.86.0
+        tag: boost-1.87.0
 
   - name: libdwarf
     buildsystem: autotools
@@ -237,10 +237,13 @@ modules:
 
   - name: gemmi
     buildsystem: cmake-ninja
+    config-opts:
+      - -DUSE_PYTHON=1
+      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        commit: 122048f755839a536c186e519387f7617b76a7bf
+        commit: b01123ef241cd7f8e03c7ae2e412081032222799
 
   - name: swig
     buildsystem: autotools
@@ -281,7 +284,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2024_09_4
+        tag: Release_2024_09_5
       - type: archive
         url: https://github.com/schrodinger/maeparser/archive/refs/tags/v1.3.1.tar.gz
         sha256: a8d80f67d1b9be6e23b9651cb747f4a3200132e7d878a285119c86bf44568e36
@@ -339,7 +342,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 835c5ebde36c6aa2d25104f4ad651fe5aa42f291
+        tag: Release-1.1.14
       - type: archive
         url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.006.tar.gz
         sha256: 3143b3aba958f370956961f2c78b70acb8e94f840a3aee7beb9f2668253153b4
