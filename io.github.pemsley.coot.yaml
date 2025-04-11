@@ -32,7 +32,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        tag: 0.7.1
+        tag: v0.7.1
   
   - deps/pypi-dependencies.json
 
