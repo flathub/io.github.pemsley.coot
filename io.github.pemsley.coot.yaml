@@ -24,6 +24,16 @@ cleanup:
   - "*.a"
 
 modules:
+  - name: gemmi
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DUSE_PYTHON=1
+      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
+    sources:
+      - type: git
+        url: https://github.com/project-gemmi/gemmi.git
+        tag: 0.7.1
+  
   - deps/pypi-dependencies.json
 
   - name: fftw2
@@ -234,16 +244,6 @@ modules:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
         sha256: 298d8c4f9b567bfe87beda18ed58d047c2e01b88c80895129de5466b921ccebe
-
-  - name: gemmi
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DUSE_PYTHON=1
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
-    sources:
-      - type: git
-        url: https://github.com/project-gemmi/gemmi.git
-        commit: b01123ef241cd7f8e03c7ae2e412081032222799
 
   - name: swig
     buildsystem: autotools
