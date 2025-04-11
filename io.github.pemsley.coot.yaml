@@ -24,6 +24,8 @@ cleanup:
   - "*.a"
 
 modules:
+  - deps/pypi-dependencies.json
+
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
@@ -34,8 +36,6 @@ modules:
         url: https://github.com/project-gemmi/gemmi.git
         tag: v0.7.1
   
-  - deps/pypi-dependencies.json
-
   - name: fftw2
     buildsystem: autotools
     config-opts:
