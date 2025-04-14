@@ -342,7 +342,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 6c20bc23cccc42ea55660953b804001336ff2089
+        commit: d118c4049e847affe558bd4f56915f9fbcb292cb
       - type: archive
         url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.006.tar.gz
         sha256: 3143b3aba958f370956961f2c78b70acb8e94f840a3aee7beb9f2668253153b4
