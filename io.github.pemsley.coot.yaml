@@ -26,6 +26,16 @@ cleanup:
 modules:
   - deps/pypi-dependencies.json
 
+  - name: gemmi
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DUSE_PYTHON=1
+      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
+    sources:
+      - type: git
+        url: https://github.com/project-gemmi/gemmi.git
+        tag: v0.7.1
+  
   - name: fftw2
     buildsystem: autotools
     config-opts:
@@ -235,16 +245,6 @@ modules:
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
         sha256: 298d8c4f9b567bfe87beda18ed58d047c2e01b88c80895129de5466b921ccebe
 
-  - name: gemmi
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DUSE_PYTHON=1
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
-    sources:
-      - type: git
-        url: https://github.com/project-gemmi/gemmi.git
-        commit: b01123ef241cd7f8e03c7ae2e412081032222799
-
   - name: swig
     buildsystem: autotools
     sources:
@@ -342,7 +342,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 6c20bc23cccc42ea55660953b804001336ff2089
+        commit: d118c4049e847affe558bd4f56915f9fbcb292cb
       - type: archive
         url: https://github.com/MonomerLibrary/monomers/archive/refs/tags/ccp4-9.0.006.tar.gz
         sha256: 3143b3aba958f370956961f2c78b70acb8e94f840a3aee7beb9f2668253153b4
