@@ -35,7 +35,7 @@ modules:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
         tag: v0.7.1
-  
+
   - name: fftw2
     buildsystem: autotools
     config-opts:
@@ -71,8 +71,8 @@ modules:
       - --disable-fortran
     sources:
       - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-6.5.1.tar.gz
-        sha256: 280b473d950cdf8837ef66147ec581104298b892399bd856f13b096f2395dbe5
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
+        sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
 
   - name: clipper4coot
     buildsystem: autotools
@@ -92,6 +92,9 @@ modules:
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
       - type: patch
         path: clipper-configure-2.patch
+      - type: shell
+        commands:
+          - sed -i 's/libccp4c/ccp4c/g' configure
 
   - name: libgd
     buildsystem: autotools
@@ -146,7 +149,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/boostorg/boost.git
-        tag: boost-1.88.0
+        tag: boost-1.87.0
 
   - name: libdwarf
     buildsystem: autotools
