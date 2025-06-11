@@ -31,6 +31,8 @@ modules:
     config-opts:
       - -DUSE_PYTHON=1
       - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
+    build-options:
+      cxxflags: "-fPIC -O2"
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
@@ -42,6 +44,8 @@ modules:
       - --enable-shared
       - --enable-float
       - --disable-static
+    build-options:
+      cflags: "-fPIC -O3"
     sources:
       - type: archive
         url: https://fftw.org/fftw-2.1.5.tar.gz
@@ -57,7 +61,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: "-g -O2"
+      cxxflags: "-g -O2 -fPIC -std=c++11"
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -69,6 +73,9 @@ modules:
       - --enable-shared
       - --disable-static
       - --disable-fortran
+    build-options:
+      cflags: "-fPIC -O2"
+      cxxflags: "-fPIC -O2"
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
@@ -85,7 +92,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing"
+      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11"
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
@@ -111,7 +118,7 @@ modules:
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing"
+      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC"
     build-commands:
       - make linux
       - make all
@@ -186,6 +193,8 @@ modules:
       - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
+    build-options:
+      cflags: "-fPIC -O3"
     post-install:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
@@ -200,6 +209,8 @@ modules:
       - --disable-debug
       - --disable-docs
       - --disable-dependency-tracking
+    build-options:
+      cflags: "-fPIC -O2"
     sources:
       - type: git
         url: https://github.com/ivmai/bdwgc
@@ -328,7 +339,7 @@ modules:
       - --with-backward
       - --with-libdw
     build-options:
-      cxxflags: "-g -O1"
+      cxxflags: "-g -O1 -fPIC"
       env:
         GLM_CFLAGS: "-I/app/include"
         GLM_LIBS: "-L/app/lib -lglm"
