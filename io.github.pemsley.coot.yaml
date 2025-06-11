@@ -181,10 +181,9 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-      - -DDYNAMIC_ARCH=1
-      - -DUSE_OPENMP=1
-      - -DNUM_THREADS=56
-      - -DNO_SVE=1
+      - -DUSE_OPENMP=ON
+      - -DNUM_THREADS=64
+      - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
     post-install:
