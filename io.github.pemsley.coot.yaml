@@ -39,9 +39,9 @@ modules:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
     sources:
-      - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.28.tar.gz
-        sha256: f1003466ad074e9b0c8d421a204121100b0751c96fc6fcf3d1456bd12f8a00a1
+      - type: git
+        url: https://github.com/OpenMathLib/OpenBLAS.git
+        tag: v0.3.28
 
   # markupsafe, meson-python, nanobind, numpy
   - deps/pypi-dependencies.json
