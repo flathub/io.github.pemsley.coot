@@ -1,6 +1,4 @@
-mako
-markdown
 markupsafe
-meson-python
+meson-python>=0.15.0,<0.16.0
 nanobind
 numpy==1.26.4
