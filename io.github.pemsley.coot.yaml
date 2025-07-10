@@ -24,6 +24,26 @@ cleanup:
   - "*.a"
 
 modules:
+  - name: openblas
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DUSE_OPENMP=ON
+      - -DNUM_THREADS=64
+      - -DNO_SVE=ON
+      - -DBUILD_SHARED_LIBS=ON
+      - -DDYNAMIC_ARCH=ON
+    build-options:
+      cflags: "-fPIC -O3"
+    post-install:
+      - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
+      - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
+    sources:
+      - type: git
+        url: https://github.com/OpenMathLib/OpenBLAS.git
+        tag: v0.3.28
+
+  # markupsafe, meson-python, nanobind, numpy
   - deps/pypi-dependencies.json
 
   - name: gemmi
@@ -184,25 +204,6 @@ modules:
         url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
         sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
 
-  - name: openblas
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DUSE_OPENMP=ON
-      - -DNUM_THREADS=64
-      - -DNO_SVE=ON
-      - -DBUILD_SHARED_LIBS=ON
-      - -DDYNAMIC_ARCH=ON
-    build-options:
-      cflags: "-fPIC -O3"
-    post-install:
-      - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
-      - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
-    sources:
-      - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.28.tar.gz
-        sha256: f1003466ad074e9b0c8d421a204121100b0751c96fc6fcf3d1456bd12f8a00a1
-
   - name: bdw-gc
     buildsystem: autotools
     config-opts:
@@ -353,5 +354,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: a1e8ef5b22fcd6348807923943bd984494e594bf
+        commit: a374e0364bbe7b9eb06b5c8302db38d24ae02007
         
