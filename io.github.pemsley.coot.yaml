@@ -49,14 +49,14 @@ modules:
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
-      - -DUSE_PYTHON=1
+      - -DUSE_PYTHON=ON
       - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
     build-options:
       cxxflags: "-fPIC -O2"
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.7.1
+        tag: v0.7.3
 
   - name: fftw2
     buildsystem: autotools
@@ -354,5 +354,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: a374e0364bbe7b9eb06b5c8302db38d24ae02007
+        tag: Release-1.1.18
         
