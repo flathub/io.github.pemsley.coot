@@ -7,9 +7,7 @@ finish-args:
   - --socket=x11
   - --share=ipc
   - --device=dri
-  - --filesystem=host
-  - --filesystem=xdg-cache
-  - --filesystem=xdg-data
+  - --filesystem=home
   - --share=network
   - --env=GDK_CORE_DEVICE_EVENTS=1
   - --env=COOT_PREFIX=/app
