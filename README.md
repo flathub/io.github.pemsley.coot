@@ -18,7 +18,7 @@ There are two types of build for different purposes.
 This is the latest stable version. It is suitable for the most people for daily use.
 
 ```shell
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.github.pemsley.coot
 flatpak run io.github.pemsley.coot
 ```
