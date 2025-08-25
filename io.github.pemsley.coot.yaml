@@ -101,7 +101,7 @@ modules:
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
 
-  - name: clipper4coot
+  - name: clipper
     buildsystem: autotools
     config-opts:
       - --enable-mmdb
@@ -118,7 +118,7 @@ modules:
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
       - type: patch
-        path: clipper-configure-2.patch
+        path: patches/clipper-configure-2.patch
       - type: shell
         commands:
           - sed -i 's/libccp4c/ccp4c/g' configure
@@ -133,7 +133,7 @@ modules:
         url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
         sha256: 3fe822ece20796060af63b7c60acb151e5844204d289da0ce08f8fdf131e5a61
       - type: patch
-        path: gd.h.patch
+        path: patches/gd.h.patch
 
   - name: raster3d
     buildsystem: simple
@@ -148,7 +148,7 @@ modules:
         url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-7.tar.gz
         sha256: f566b499fee341db3a95229672c6afdbdb69da7faabdbe34f6e0d332d766160c
       - type: patch
-        path: Makefile.template.patch
+        path: patches/Makefile.template.patch
 
   - name: ssm
     buildsystem: autotools
@@ -345,7 +345,6 @@ modules:
         GLM_CFLAGS: "-I/app/include"
         GLM_LIBS: "-L/app/lib -lglm"
     post-install:
-      - mkdir -p ${FLATPAK_DEST}/share/coot/
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
       - install -Dm644 pixmaps/icons/coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
@@ -355,4 +354,7 @@ modules:
       - type: git
         url: https://github.com/pemsley/coot.git
         commit: 6629ed951735a500eda5df8744cb20179a5a7b30
-        
+
+      # Refer to https://github.com/pemsley/coot/issues/161#issuecomment-3219446069
+      - type: patch
+        path: patches/Makefile.am.patch
