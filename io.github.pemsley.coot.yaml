@@ -345,7 +345,6 @@ modules:
         GLM_CFLAGS: "-I/app/include"
         GLM_LIBS: "-L/app/lib -lglm"
     post-install:
-      - mkdir -p ${FLATPAK_DEST}/share/coot/
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
       - install -Dm644 pixmaps/icons/coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
       - install -Dm644 coot.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
@@ -355,3 +354,6 @@ modules:
       - type: git
         url: https://github.com/pemsley/coot.git
         tag: Release-1.1.18
+      - type: shell
+        commands:
+          - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data/monomers
