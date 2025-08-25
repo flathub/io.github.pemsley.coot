@@ -356,4 +356,4 @@ modules:
         tag: Release-1.1.18
       - type: shell
         commands:
-          - mkdir -p ${FLATPAK_DEST}/share/coot/lib/data/monomers
+          - sed -i '\|src ui$| s|$| monomers \\|' Makefile.am
