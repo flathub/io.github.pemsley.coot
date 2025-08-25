@@ -356,4 +356,6 @@ modules:
         tag: Release-1.1.18
       - type: shell
         commands:
-          - sed -i '\|src ui$| s|$| monomers \\|' Makefile.am
+          # Workaround to add monomers data to Makefile.am
+          # Refer to https://github.com/pemsley/coot/issues/161#issuecomment-3219446069
+          - sed -i '/python-tests cootilus fonts pyrogen data \\$/ s/$/ monomers \\/' Makefile.am
