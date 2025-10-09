@@ -353,8 +353,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 6629ed951735a500eda5df8744cb20179a5a7b30
-
-      # Refer to https://github.com/pemsley/coot/issues/161#issuecomment-3219446069
-      - type: patch
-        path: patches/Makefile.am.patch
+        tag: Release-1.1.19
