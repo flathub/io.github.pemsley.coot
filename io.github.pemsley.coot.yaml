@@ -353,4 +353,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        tag: Release-1.1.19
+        commit: 62a3d6b2575fa322ac5ddcb5995a6f8af72e8662
