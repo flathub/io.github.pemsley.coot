@@ -1,6 +1,6 @@
 app-id: io.github.pemsley.coot
 runtime: org.gnome.Platform
-runtime-version: "48"  # include python 3.12.9
+runtime-version: '48'  # include python 3.12.9
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
@@ -20,8 +20,8 @@ cleanup:
   - /share/doc
   - /share/info
   - /share/man
-  - "*.la"
-  - "*.a"
+  - '*.la'
+  - '*.a'
 
 modules:
   - name: openblas
@@ -34,7 +34,7 @@ modules:
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
     build-options:
-      cflags: "-fPIC -O3"
+      cflags: -fPIC -O3
     post-install:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
@@ -48,8 +48,8 @@ modules:
       - /share/man
     sources:
       - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.29/OpenBLAS-0.3.29.tar.gz
-        sha512: 046316b4297460bffca09c890ecad17ea39d8b3db92ff445d03b547dd551663d37e40f38bce8ae11e2994374ff01e622b408da27aa8e40f4140185ee8f001a60
+        url: https://github.com/OpenMathLib/OpenBLAS/archive/v0.3.30.tar.gz
+        sha512: c726ced2d3e6ebd3ddcd0b13c255bb43fae8c12d2aec15e9ef992b0bc7099996c02cd284ccaaa7b5fac3f23f280b098063dd60f521d97a68dc183ab192fcccdb
         x-checker-data:
           type: anitya
           project-id: 2540
@@ -64,7 +64,7 @@ modules:
       - -DUSE_PYTHON=ON
       - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
     build-options:
-      cxxflags: "-fPIC -O2"
+      cxxflags: -fPIC -O2
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
@@ -77,7 +77,7 @@ modules:
       - --enable-float
       - --disable-static
     build-options:
-      cflags: "-fPIC -O3"
+      cflags: -fPIC -O3
     sources:
       - type: archive
         url: https://fftw.org/fftw-2.1.5.tar.gz
@@ -93,7 +93,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: "-g -O2 -fPIC -std=c++11"
+      cxxflags: -g -O2 -fPIC -std=c++11
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -106,8 +106,8 @@ modules:
       - --disable-static
       - --disable-fortran
     build-options:
-      cflags: "-fPIC -O2"
-      cxxflags: "-fPIC -O2"
+      cflags: -fPIC -O2
+      cxxflags: -fPIC -O2
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
@@ -124,7 +124,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11"
+      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
@@ -150,7 +150,7 @@ modules:
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: "-g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC"
+      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
     build-commands:
       - make linux
       - make all
@@ -178,11 +178,14 @@ modules:
   - name: boost
     buildsystem: simple
     build-commands:
-      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr --with-libraries=system,python,regex,thread,serialization,iostreams,program_options --prefix=/app --libdir=/app/lib
-      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12 -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
+      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr
+        --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
+        --prefix=/app --libdir=/app/lib
+      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12
+        -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
-      cflags: "-fPIC"
-      cxxflags: "-fPIC -std=c++14"
+      cflags: -fPIC
+      cxxflags: -fPIC -std=c++14
     cleanup:
       - /share/boost
     sources:
@@ -209,8 +212,8 @@ modules:
   - name: glm
     buildsystem: cmake
     config-opts:
-     - -DGLM_BUILD_TESTS=OFF
-     - -DBUILD_SHARED_LIBS=ON
+      - -DGLM_BUILD_TESTS=OFF
+      - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
         url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
@@ -223,7 +226,7 @@ modules:
       - --disable-docs
       - --disable-dependency-tracking
     build-options:
-      cflags: "-fPIC -O2"
+      cflags: -fPIC -O2
     sources:
       - type: git
         url: https://github.com/ivmai/bdwgc
@@ -282,7 +285,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-      - "-DCMAKE_CXX_STANDARD=17"
+      - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
         url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
@@ -352,10 +355,10 @@ modules:
       - --with-backward
       - --with-libdw
     build-options:
-      cxxflags: "-g -O1 -fPIC"
+      cxxflags: -g -O1 -fPIC
       env:
-        GLM_CFLAGS: "-I/app/include"
-        GLM_LIBS: "-L/app/lib -lglm"
+        GLM_CFLAGS: -I/app/include
+        GLM_LIBS: -L/app/lib -lglm
     post-install:
       - cp -r python/ ${FLATPAK_DEST}/share/coot/
       - install -Dm644 pixmaps/icons/coot.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
