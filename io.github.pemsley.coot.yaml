@@ -31,6 +31,7 @@ modules:
       - -DUSE_OPENMP=ON
       - -DNUM_THREADS=64
       - -DNO_SVE=ON
+      - -DNO_SME=OFF
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
     build-options:
