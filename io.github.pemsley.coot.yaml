@@ -366,3 +366,7 @@ modules:
       - type: git
         url: https://github.com/pemsley/coot.git
         tag: Release-1.1.19
+        x-checker-data: 
+          type: github-releases
+          project: pemsley/coot
+          version-pattern: ^Release-([\d.]+)$
