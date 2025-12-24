@@ -363,10 +363,10 @@ modules:
       - desktop-file-edit --set-key=Icon --set-value=${FLATPAK_ID} ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 coot.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
-      - type: git
-        url: https://github.com/pemsley/coot.git
-        tag: Release-1.1.19
-        x-checker-data: 
+      - type: archive
+        url: https://github.com/pemsley/coot/archive/Release-1.1.19.tar.gz
+        sha256: 514b21e59ef1f4c69f1361309c5c7252940f0babf5aeacf1f0382f86cc82313a
+        x-checker-data:
           type: github-releases
           project: pemsley/coot
           version-pattern: ^Release-([\d.]+)$
