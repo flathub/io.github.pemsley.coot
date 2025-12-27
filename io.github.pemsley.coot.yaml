@@ -354,6 +354,7 @@ modules:
       - --with-guile
       - --with-backward
       - --with-libdw
+      - --with-sound
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
