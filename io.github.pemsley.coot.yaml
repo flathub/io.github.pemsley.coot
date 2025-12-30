@@ -150,7 +150,7 @@ modules:
       - --without-x
       - --without-xpm
     build-options:
-      cflags: -Wno-error=unused-result,old-style-definition
+      cflags: -Wno-error=unused-result -Wno-error=old-style-definition
     sources:
       - type: git
         url: https://github.com/libgd/libgd.git
