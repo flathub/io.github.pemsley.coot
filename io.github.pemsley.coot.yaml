@@ -337,6 +337,8 @@ modules:
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
+    config-opts:
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: git
         url: https://gitlab.com/libeigen/eigen.git
