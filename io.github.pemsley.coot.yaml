@@ -283,8 +283,8 @@ modules:
       - --disable-Werror
     sources:
       - type: archive
-        url: http://savannah.nongnu.org/download/g-wrap/g-wrap-1.9.15.tar.gz
-        sha256: 7d08a24b213657f7223ee4f2ef5c581b8dea188ffda2d30852615d308497c2c3
+        url: https://download.savannah.gnu.org/releases/g-wrap/g-wrap-1.9.15.tar.gz
+        sha256: 0ff6e2700e74b457323726f7c2551a466d8ba44339705f6792d7b533145c602a
 
   - name: guile-cairo
     buildsystem: autotools
