@@ -386,6 +386,9 @@ modules:
         url: https://github.com/Tencent/rapidjson/archive/858451e.tar.gz
         sha256: 765339356391422ad7f0258f8b746d8010da205762784a84980936e8b38e03ce
         strip-components: 0
+      - type: file
+        url: https://raw.githubusercontent.com/aantron/better-enums/refs/tags/0.11.3/enum.h
+        sha256: 43a55c487052cfe068ecf1e4496d52128161bfb82c06c343eea85f177f235e04
       - type: shell
         commands:
           - mkdir -p External/CoordGen/{maeparser,coordgen}
@@ -397,6 +400,8 @@ modules:
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
+          - cp enum.h Code/RDGeneral
+          - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt
 
   - name: coot
     buildsystem: autotools
