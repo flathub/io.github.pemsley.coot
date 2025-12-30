@@ -56,7 +56,7 @@ modules:
           project-id: 2540
           url-template: https://github.com/OpenMathLib/OpenBLAS/archive/v$version.tar.gz
 
-  # markupsafe, meson-python, nanobind, numpy
+  # markupsafe, meson-python, nanobind, numpy, Cython
   - deps/pypi-dependencies.json
 
   - name: gemmi
