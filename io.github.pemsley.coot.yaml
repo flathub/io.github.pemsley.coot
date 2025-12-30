@@ -5,6 +5,7 @@ sdk: org.gnome.Sdk
 command: coot
 finish-args:
   - --socket=x11
+  - --socket=pulseaudio
   - --share=ipc
   - --device=dri
   - --filesystem=home
@@ -354,6 +355,7 @@ modules:
       - --with-guile
       - --with-backward
       - --with-libdw
+      - --with-sound
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
