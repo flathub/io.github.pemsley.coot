@@ -149,6 +149,8 @@ modules:
     config-opts:
       - --without-x
       - --without-xpm
+    build-options:
+      cflags: -Wno-error=unused-result
     sources:
       - type: git
         url: https://github.com/libgd/libgd.git
