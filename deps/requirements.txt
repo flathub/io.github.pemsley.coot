@@ -1,4 +1,4 @@
 markupsafe
-meson-python>=0.15.0,<0.16.0
+meson-python
 nanobind
-numpy==1.26.4
+numpy

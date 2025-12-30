@@ -1,6 +1,6 @@
 app-id: io.github.pemsley.coot
 runtime: org.gnome.Platform
-runtime-version: '48'  # include python 3.12.9
+runtime-version: '49'  # include python 3.13.9
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
@@ -48,9 +48,9 @@ modules:
       - /lib/pkgconfig
       - /share/man
     sources:
-      - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.29/OpenBLAS-0.3.29.tar.gz
-        sha512: 046316b4297460bffca09c890ecad17ea39d8b3db92ff445d03b547dd551663d37e40f38bce8ae11e2994374ff01e622b408da27aa8e40f4140185ee8f001a60
+      - type: git
+        url: https://github.com/OpenMathLib/OpenBLAS.git
+        tag: v0.3.29
         x-checker-data:
           type: anitya
           project-id: 2540
@@ -63,13 +63,17 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DUSE_PYTHON=ON
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
+      - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
     build-options:
       cxxflags: -fPIC -O2
     sources:
       - type: git
         url: https://github.com/project-gemmi/gemmi.git
         tag: v0.7.3
+        x-checker-data:
+          type: anitya
+          project-id: 22936
+          tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
 
   - name: fftw2
     buildsystem: autotools
@@ -142,9 +146,13 @@ modules:
       - --without-x
       - --without-xpm
     sources:
-      - type: archive
-        url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
-        sha256: 3fe822ece20796060af63b7c60acb151e5844204d289da0ce08f8fdf131e5a61
+      - type: git
+        url: https://github.com/libgd/libgd.git
+        tag: gd-2.3.3
+        x-checker-data:
+          type: anitya
+          project-id: 880
+          url-template: https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.xz
       - type: patch
         path: patches/gd.h.patch
 
@@ -179,10 +187,10 @@ modules:
   - name: boost
     buildsystem: simple
     build-commands:
-      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr
+      - ./bootstrap.sh --without-icu --with-python=python3.13 --with-python-root=/usr
         --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
         --prefix=/app --libdir=/app/lib
-      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12
+      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
       cflags: -fPIC
@@ -193,6 +201,10 @@ modules:
       - type: git
         url: https://github.com/boostorg/boost.git
         tag: boost-1.87.0
+        x-checker-data:
+          type: anitya
+          project-id: 6845
+          url-template: https://github.com/boostorg/boost/releases/download/boost-$version/boost-$version-b2-nodocs.tar.xz
 
   - name: libdwarf
     buildsystem: autotools
@@ -202,6 +214,10 @@ modules:
       - type: archive
         url: https://www.prevanders.net/libdwarf-0.11.0.tar.xz
         sha256: 846071fb220ac1952f9f15ebbac6c7831ef50d0369b772c07a8a8139a42e07d2
+        x-checker-data:
+          type: anitya
+          project-id: 1597
+          url-template: https://www.prevanders.net/libdwarf-$version.tar.xz
 
   - name: gsl
     buildsystem: autotools
@@ -209,6 +225,10 @@ modules:
       - type: archive
         url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
         sha256: 6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190
+        x-checker-data:
+          type: anitya
+          project-id: 1267
+          url-template: https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz
 
   - name: glm
     buildsystem: cmake
@@ -216,9 +236,13 @@ modules:
       - -DGLM_BUILD_TESTS=OFF
       - -DBUILD_SHARED_LIBS=ON
     sources:
-      - type: archive
-        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
-        sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
+      - type: git
+        url: https://github.com/g-truc/glm.git
+        tag: 1.0.1
+        x-checker-data:
+          type: anitya
+          project-id: 1181
+          url-template: https://github.com/g-truc/glm/archive/refs/tags/$version.tar.gz
 
   - name: bdw-gc
     buildsystem: autotools
@@ -230,8 +254,12 @@ modules:
       cflags: -fPIC -O2
     sources:
       - type: git
-        url: https://github.com/ivmai/bdwgc
+        url: https://github.com/ivmai/bdwgc.git
         tag: v8.2.4
+        x-checker-data:
+          type: anitya
+          project-id: 17108
+          url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
   - name: guile
     buildsystem: autotools
@@ -281,6 +309,10 @@ modules:
       - type: git
         url: https://github.com/swig/swig.git
         tag: v4.3.0
+        x-checker-data:
+          type: anitya
+          project-id: 6131
+          url-template: https://github.com/swig/swig/archive/refs/tags/v$version.tar.gz
 
   - name: Catch2
     buildsystem: cmake-ninja
@@ -288,17 +320,25 @@ modules:
     config-opts:
       - -DCMAKE_CXX_STANDARD=17
     sources:
-      - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
-        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
+      - type: git
+        url: https://github.com/catchorg/Catch2.git
+        tag: v3.7.1
+        x-checker-data:
+          type: anitya
+          project-id: 7680
+          url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
 
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
     sources:
-      - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
-        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
+      - type: git
+        url: https://gitlab.com/libeigen/eigen.git
+        tag: 3.3.9
+        x-checker-data:
+          type: anitya
+          project-id: 13751
+          url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
 
   - name: rdkit
     buildsystem: cmake-ninja
@@ -306,7 +346,7 @@ modules:
     config-opts:
       - -DCatch2_DIR=/app
       - -DPYTHON_EXECUTABLE=/usr/bin/python3
-      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.12
+      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
@@ -315,6 +355,9 @@ modules:
       - type: git
         url: https://github.com/rdkit/rdkit
         tag: Release_2024_09_5
+        x-checker-data:
+          type: git
+          tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
       - type: archive
         url: https://github.com/schrodinger/maeparser/archive/refs/tags/v1.3.1.tar.gz
         sha256: a8d80f67d1b9be6e23b9651cb747f4a3200132e7d878a285119c86bf44568e36
