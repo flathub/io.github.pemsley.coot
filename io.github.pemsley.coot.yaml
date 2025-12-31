@@ -299,6 +299,8 @@ modules:
           stable-only: true
           url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
+  # NOTE: Guile 3.0 is currently incompatible with the GTK4-based Coot build.
+  # Keep at 2.2.7 until upstream supports 3.0.
   - name: guile
     buildsystem: autotools
     config-opts:
