@@ -41,12 +41,6 @@ modules:
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
     cleanup:
       - /bin
-      - /include
-      - /lib/cmake
-      - /lib/*.a
-      - /lib/*.la
-      - /lib/pkgconfig
-      - /share/man
     sources:
       - type: archive
         url: https://github.com/OpenMathLib/OpenBLAS/archive/v0.3.29.tar.gz
