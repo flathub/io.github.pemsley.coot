@@ -365,10 +365,10 @@ modules:
       - type: git
         url: https://github.com/rdkit/rdkit
         tag: Release_2025_03_3
+        commit: 1d0e6267104d2d64c0b252ed089cffc146406e79
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
-        commit: 9b69dd2a400b43a2ac5a311fef786628c257f4b1
       - type: archive
         url: https://github.com/schrodinger/maeparser/archive/refs/tags/v1.3.1.tar.gz
         sha256: a8d80f67d1b9be6e23b9651cb747f4a3200132e7d878a285119c86bf44568e36
