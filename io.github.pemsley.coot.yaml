@@ -127,6 +127,7 @@ modules:
           url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
       - type: shell
         commands:
+          # Workarounds for gcc 15
           - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed
             -i '1i \#include <stdlib.h>' library_utils.c; fi
           - cd ccp4 && sed -i -E 's/^[[:space:]]*int[[:space:]]+putenv[[:space:]]*\([^;]*\)[[:space:]]*;/extern
