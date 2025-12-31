@@ -364,7 +364,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2025_09_4
+        tag: Release_2025_03_3
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
