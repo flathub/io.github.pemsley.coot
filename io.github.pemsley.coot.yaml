@@ -107,6 +107,11 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
         sha256: a9646933ce9f34633e1ae4901f2383af0e5318d6490851328f5b6aa06195ab51
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: mmdb2-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-$version.tar.gz
 
   - name: libccp4
     buildsystem: autotools
@@ -121,6 +126,11 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: libccp4-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
       - type: shell
         commands:
           - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed
@@ -144,11 +154,34 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: clipper-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-$version.tar.gz
       - type: patch
         path: patches/clipper-configure-2.patch
       - type: shell
         commands:
           - sed -i 's/libccp4c/ccp4c/g' configure
+
+  - name: ssm
+    buildsystem: autotools
+    config-opts:
+      - --enable-ccp4
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -fPIC
+    sources:
+      - type: archive
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
+        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: ssm-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-$version.tar.gz
 
   - name: libgd
     buildsystem: autotools
@@ -181,21 +214,13 @@ modules:
       - type: archive
         url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar
         sha256: 4f6999f8d446ed2d7ef32d4f7abaa1d63fa1fa78686e79cecafc06c5ae6b122d
+        x-checker-data:
+          type: html
+          url: http://www.bmsc.washington.edu/raster3d/
+          version-pattern: Raster3D_([\d\.-]+)\.tar\.gz
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
       - type: patch
         path: patches/fix-raster3d-Makefile.template.patch
-
-  - name: ssm
-    buildsystem: autotools
-    config-opts:
-      - --enable-ccp4
-      - --enable-shared
-      - --disable-static
-    build-options:
-      cflags: -fPIC
-    sources:
-      - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
-        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
 
   - name: boost
     buildsystem: simple
