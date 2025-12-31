@@ -119,8 +119,10 @@ modules:
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
       - type: shell
         commands:
-          - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed -i '1i \#include <stdlib.h>' library_utils.c; fi
-          - cd ccp4 && sed -i -E 's/^[[:space:]]*int[[:space:]]+putenv[[:space:]]*\([^;]*\)[[:space:]]*;/extern int putenv(char *);/' library_utils.c
+          - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed
+            -i '1i \#include <stdlib.h>' library_utils.c; fi
+          - cd ccp4 && sed -i -E 's/^[[:space:]]*int[[:space:]]+putenv[[:space:]]*\([^;]*\)[[:space:]]*;/extern
+            int putenv(char *);/' library_utils.c
 
   - name: clipper
     buildsystem: autotools
@@ -218,8 +220,8 @@ modules:
       - --enable-shared
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-0.11.0.tar.xz
-        sha256: 846071fb220ac1952f9f15ebbac6c7831ef50d0369b772c07a8a8139a42e07d2
+        url: https://www.prevanders.net/libdwarf-2.2.0.tar.xz
+        sha256: 54c0abbbeb4190bd1babb5d28574d2b20c2309343ec764cc7ca611e527ee4a42
         x-checker-data:
           type: anitya
           project-id: 1597
@@ -363,6 +365,7 @@ modules:
       - type: git
         url: https://github.com/rdkit/rdkit
         tag: Release_2025_03_3
+        commit: 1d0e6267104d2d64c0b252ed089cffc146406e79
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
