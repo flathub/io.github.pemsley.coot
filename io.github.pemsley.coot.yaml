@@ -98,7 +98,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: -O2 -fPIC -std=c++11 -DNDEBUG
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -116,8 +116,8 @@ modules:
       - --disable-static
       - --disable-fortran
     build-options:
-      cflags: -fPIC -O2 -DNDEBUG
-      cxxflags: -fPIC -O2 -DNDEBUG
+      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG 
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
@@ -169,7 +169,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cflags: -fPIC -DNDEBUG
+      cflags: -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
@@ -186,7 +186,8 @@ modules:
       - --without-x
       - --without-xpm
     build-options:
-      cflags: -Wno-error=unused-result -Wno-error=old-style-definition -DNDEBUG
+      cflags: -O2 -Wno-error=unused-result -Wno-error=old-style-definition -fPIC -DNDEBUG
+      cxxflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
@@ -308,8 +309,8 @@ modules:
           stable-only: true
           url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
-  # NOTE: Guile 3.0 is currently incompatible with the GTK4-based Coot build.
-  # Keep at 2.2.7 until upstream supports 3.0.
+  # NOTE: The 'guile-gnome-platform' is currently incompatible with Guile 3.0.
+  # Use Guile 2.2.7 until 'guile-gnome-platform' or an alternative (like G-Golf) is ready for Guile 3.0 and GTK4.
   - name: guile
     buildsystem: autotools
     config-opts:
