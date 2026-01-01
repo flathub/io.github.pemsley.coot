@@ -488,13 +488,15 @@ modules:
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.gz
-        sha256: e9c326dc8c05cd1e044c71f30f1b2e34a6161a3b6ecf445d56b53ff1669e3dec
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
+        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
         x-checker-data:
           type: anitya
           project-id: 13751
           stable-only: true
           url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
+          versions:
+            <: 4.0.0a0    
 
   - name: rdkit
     buildsystem: cmake-ninja
