@@ -11,8 +11,9 @@ finish-args:
   - --filesystem=home
   - --share=network
   - --env=GDK_CORE_DEVICE_EVENTS=1
+  - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
+  - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
-  - --env=GDK_DEBUG=gl-prefer-gl
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -29,13 +30,14 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_OPENMP=ON
+      - -DUSE_THREAD=ON
+      - -DNO_AFFINITY=ON
       - -DNUM_THREADS=64
       - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
-    build-options:
-      cflags: -fPIC -O3
     post-install:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
@@ -59,10 +61,11 @@ modules:
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_PYTHON=ON
       - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
     build-options:
-      cxxflags: -fPIC -O2
+      cxxflags: -fPIC -O3
     sources:
       - type: archive
         url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
@@ -73,14 +76,20 @@ modules:
           stable-only: false
           tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
 
+  # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
     buildsystem: autotools
     config-opts:
-      - --enable-shared
       - --enable-float
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cflags: -fPIC -O3
+      cflags: -fPIC -O3 -DNDEBUG
     sources:
       - type: archive
         url: https://fftw.org/fftw-2.1.5.tar.gz
@@ -93,10 +102,15 @@ modules:
   - name: mmdb2
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cxxflags: -g -O2 -fPIC -std=c++11
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -110,12 +124,17 @@ modules:
   - name: libccp4
     buildsystem: autotools
     config-opts:
+      - --disable-fortran
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
-      - --disable-fortran
+      - --disable-Werror
     build-options:
-      cflags: -fPIC -O2
-      cxxflags: -fPIC -O2
+      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG 
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
@@ -141,10 +160,15 @@ modules:
       - --enable-cif
       - --enable-minimol
       - --enable-cns
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
@@ -158,16 +182,21 @@ modules:
         path: patches/clipper-configure-2.patch
       - type: shell
         commands:
-          - sed -i 's/libccp4c/ccp4c/g' configure
+          - sed -i 's|libccp4c|ccp4c|g' configure
 
   - name: ssm
     buildsystem: autotools
     config-opts:
       - --enable-ccp4
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cflags: -fPIC
+      cflags: -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
@@ -183,8 +212,16 @@ modules:
     config-opts:
       - --without-x
       - --without-xpm
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
     build-options:
-      cflags: -Wno-error=unused-result -Wno-error=old-style-definition
+      cflags: -O2 -Wno-error=unused-result -Wno-error=old-style-definition -fPIC -DNDEBUG
+      cxxflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
@@ -200,7 +237,7 @@ modules:
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     build-commands:
       - make linux
       - make all
@@ -212,8 +249,8 @@ modules:
         x-checker-data:
           type: html
           url: http://www.bmsc.washington.edu/raster3d/
-          version-pattern: Raster3D_([\d\.-]+)\.tar\.gz
-          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
+          version-pattern: Raster3D_([\d\.-]+)\.tar
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar
       - type: patch
         path: patches/fix-raster3d-Makefile.template.patch
 
@@ -226,8 +263,8 @@ modules:
       - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
-      cflags: -fPIC
-      cxxflags: -fPIC -std=c++14
+      cflags: -fPIC -DNDEBUG
+      cxxflags: -fPIC -std=c++14 -DNDEBUG
     cleanup:
       - /share/boost
     sources:
@@ -243,7 +280,15 @@ modules:
   - name: libdwarf
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://www.prevanders.net/libdwarf-2.2.0.tar.xz
@@ -256,6 +301,17 @@ modules:
 
   - name: gsl
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O3 -fPIC -DNDEBUG
+      ldflags: -L/app/lib -lopenblas
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
@@ -267,8 +323,9 @@ modules:
           url-template: https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz
 
   - name: glm
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DGLM_BUILD_TESTS=OFF
       - -DBUILD_SHARED_LIBS=ON
     sources:
@@ -287,8 +344,11 @@ modules:
       - --disable-debug
       - --disable-docs
       - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     build-options:
-      cflags: -fPIC -O2
+      cflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.4.tar.gz
@@ -299,13 +359,20 @@ modules:
           stable-only: true
           url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
-  # NOTE: Guile 3.0 is currently incompatible with the GTK4-based Coot build.
-  # Keep at 2.2.7 until upstream supports 3.0.
+  # NOTE: The 'guile-gnome-platform' is currently incompatible with Guile 3.0.
+  # Use Guile 2.2.7 until 'guile-gnome-platform' or an alternative (like G-Golf) is ready for Guile 3.0 and GTK4.
   - name: guile
     buildsystem: autotools
     config-opts:
       - --with-libltdl-prefix=/app
       - --with-libreadline-prefix=/app
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -fPIC -O2
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile/guile-2.2.7.tar.xz
@@ -314,7 +381,15 @@ modules:
   - name: g-wrap
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.gnu.org/releases/g-wrap/g-wrap-1.9.15.tar.gz
@@ -322,15 +397,34 @@ modules:
 
   - name: guile-cairo
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: http://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
+        url: https://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
         sha256: ae3d7e0f0a8ae93d0a15c692514eb30f2478d407052064976fc59a291cccdd5c
 
   - name: guile-lib
     buildsystem: autotools
     config-opts:
       - --with-guile-site=yes
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.nongnu.org/releases/guile-lib/guile-lib-0.2.7.tar.gz
@@ -338,6 +432,15 @@ modules:
 
   - name: guile-gnome-platform
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
@@ -345,6 +448,12 @@ modules:
 
   - name: swig
     buildsystem: autotools
+    config-opts:
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     sources:
       - type: archive
         url: https://github.com/swig/swig/archive/refs/tags/v4.3.0.tar.gz
@@ -359,6 +468,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
@@ -374,6 +484,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
@@ -389,6 +500,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCatch2_DIR=/app
       - -DPYTHON_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
@@ -397,6 +509,8 @@ modules:
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
       - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
+    build-options:
+      cxxflags: -fPIC -O3
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
@@ -445,12 +559,23 @@ modules:
   - name: coot
     buildsystem: autotools
     config-opts:
+      - --with-boost=/app
       - --with-boost-libdir=/app/lib
+      - --with-fftw-prefix=/app
+      - --with-gemmi=/app
+      - --with-glm=/app
       - --with-rdkit-prefix=/app
-      - --with-guile
       - --with-backward
+      - --with-coordgen
       - --with-libdw
+      - --with-guile
       - --with-sound
+      - --with-sqlite3
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --enable-relocatable-binaries
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
