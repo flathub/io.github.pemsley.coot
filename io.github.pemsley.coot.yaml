@@ -441,7 +441,7 @@ modules:
       - --disable-static
       - --disable-Werror
     build-options:
-      cflags: -O2 -fPIC -DNDEBUG -Wno-error
+      cflags: -O2 -fPIC -DNDEBUG -Wno-error=deprecated -Wno-deprecated-declarations
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
