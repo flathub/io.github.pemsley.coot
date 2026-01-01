@@ -31,12 +31,12 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_OPENMP=ON
-      - -DNUM_THREADS=128
+      - -DUSE_THREAD=ON
+      - -DNO_AFFINITY=ON
+      - -DNUM_THREADS=64
       - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
-    build-options:
-      cflags: -fPIC -O3
     post-install:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
