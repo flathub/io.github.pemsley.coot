@@ -55,15 +55,14 @@ modules:
           versions:
             <: '0.3.30'  # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
-  # markupsafe, meson-python, nanobind, numpy, Cython
+  # gemmi, nanobind, numpy, servalcat
   - deps/pypi-dependencies.json
 
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DUSE_PYTHON=ON
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
+      - -DUSE_PYTHON=OFF  # Use pypi version
     build-options:
       cxxflags: -fPIC -O3
     sources:
@@ -133,7 +132,7 @@ modules:
       - --disable-static
       - --disable-Werror
     build-options:
-      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG 
+      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
       cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
