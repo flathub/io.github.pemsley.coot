@@ -53,7 +53,7 @@ modules:
           stable-only: true
           url-template: https://github.com/OpenMathLib/OpenBLAS/archive/v$version.tar.gz
           versions:
-            <: '0.3.30'  # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
+            <: 0.3.30    # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
   # markupsafe, meson-python, nanobind, numpy, Cython
   - deps/pypi-dependencies.json
@@ -133,7 +133,7 @@ modules:
       - --disable-static
       - --disable-Werror
     build-options:
-      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG 
+      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
       cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
@@ -269,8 +269,8 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.87.0/boost-1.87.0-b2-nodocs.tar.xz
-        sha256: 3abd7a51118a5dd74673b25e0a3f0a4ab1752d8d618f4b8cea84a603aeecc680
+        url: https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-b2-nodocs.tar.xz
+        sha256: 9e6bee9ab529fb2b0733049692d57d10a72202af085e553539a05b4204211a6f
         x-checker-data:
           type: anitya
           project-id: 6845
@@ -330,8 +330,8 @@ modules:
       - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
-        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
-        sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
+        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.3.tar.gz
+        sha256: 6775e47231a446fd086d660ecc18bcd076531cfedd912fbd66e576b118607001
         x-checker-data:
           type: anitya
           project-id: 1181
@@ -351,8 +351,8 @@ modules:
       cflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
-        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.4.tar.gz
-        sha256: 18e63ab1428bd52e691da107a6a56651c161210b11fbe22e2aa3c31f7fa00ca5
+        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.10.tar.gz
+        sha256: 5858a417ab3eaac2add0daf79cd29ddf248c9f648e6c08092b775dcbfcbe1edb
         x-checker-data:
           type: anitya
           project-id: 17108
@@ -456,8 +456,8 @@ modules:
       - --disable-static
     sources:
       - type: archive
-        url: https://github.com/swig/swig/archive/refs/tags/v4.3.0.tar.gz
-        sha256: f2136da1137a20dfcec795fe0d17ca1a2465d28e3b307f122526629b6b2f2294
+        url: https://github.com/swig/swig/archive/refs/tags/v4.4.1.tar.gz
+        sha256: 8bf32042beb7ee1eeb5c71aa15a62513d964893f84234f2cd77e4a8e2ed41e87
         x-checker-data:
           type: anitya
           project-id: 6131
@@ -472,8 +472,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
-        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.12.0.tar.gz
+        sha256: e077079f214afc99fee940d91c14cf1a8c1d378212226bb9f50efff75fe07b23
         x-checker-data:
           type: anitya
           project-id: 7680
@@ -488,8 +488,8 @@ modules:
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
-        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
+        url: https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.gz
+        sha256: e9c326dc8c05cd1e044c71f30f1b2e34a6161a3b6ecf445d56b53ff1669e3dec
         x-checker-data:
           type: anitya
           project-id: 13751
