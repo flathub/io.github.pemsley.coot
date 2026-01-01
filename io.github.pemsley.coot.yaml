@@ -29,8 +29,9 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_OPENMP=ON
-      - -DNUM_THREADS=64
+      - -DNUM_THREADS=128
       - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
@@ -59,10 +60,11 @@ modules:
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_PYTHON=ON
       - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
     build-options:
-      cxxflags: -fPIC -O2
+      cxxflags: -fPIC -O3
     sources:
       - type: archive
         url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
@@ -80,7 +82,7 @@ modules:
       - --enable-float
       - --disable-static
     build-options:
-      cflags: -fPIC -O3
+      cflags: -fPIC -O3 -DNDEBUG
     sources:
       - type: archive
         url: https://fftw.org/fftw-2.1.5.tar.gz
@@ -96,7 +98,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: -O2 -fPIC -std=c++11
+      cxxflags: -O2 -fPIC -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -114,8 +116,8 @@ modules:
       - --disable-static
       - --disable-fortran
     build-options:
-      cflags: -fPIC -O2
-      cxxflags: -fPIC -O2
+      cflags: -fPIC -O2 -DNDEBUG
+      cxxflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
@@ -144,7 +146,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
@@ -158,7 +160,7 @@ modules:
         path: patches/clipper-configure-2.patch
       - type: shell
         commands:
-          - sed -i 's/libccp4c/ccp4c/g' configure
+          - sed -i 's|libccp4c|ccp4c|g' configure
 
   - name: ssm
     buildsystem: autotools
@@ -167,7 +169,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cflags: -fPIC
+      cflags: -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
@@ -184,7 +186,7 @@ modules:
       - --without-x
       - --without-xpm
     build-options:
-      cflags: -Wno-error=unused-result -Wno-error=old-style-definition
+      cflags: -Wno-error=unused-result -Wno-error=old-style-definition -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
@@ -200,7 +202,7 @@ modules:
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     build-commands:
       - make linux
       - make all
@@ -226,8 +228,8 @@ modules:
       - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
-      cflags: -fPIC
-      cxxflags: -fPIC -std=c++14
+      cflags: -fPIC -DNDEBUG
+      cxxflags: -fPIC -std=c++14 -DNDEBUG
     cleanup:
       - /share/boost
     sources:
@@ -244,6 +246,8 @@ modules:
     buildsystem: autotools
     config-opts:
       - --enable-shared
+    build-options:
+      cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://www.prevanders.net/libdwarf-2.2.0.tar.xz
@@ -256,6 +260,10 @@ modules:
 
   - name: gsl
     buildsystem: autotools
+    config-opts:
+      - --enable-shared
+    build-options:
+      cflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
@@ -267,8 +275,9 @@ modules:
           url-template: https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz
 
   - name: glm
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DGLM_BUILD_TESTS=OFF
       - -DBUILD_SHARED_LIBS=ON
     sources:
@@ -288,7 +297,7 @@ modules:
       - --disable-docs
       - --disable-dependency-tracking
     build-options:
-      cflags: -fPIC -O2
+      cflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.4.tar.gz
@@ -306,6 +315,8 @@ modules:
     config-opts:
       - --with-libltdl-prefix=/app
       - --with-libreadline-prefix=/app
+    build-options:
+      cflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile/guile-2.2.7.tar.xz
@@ -359,6 +370,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
@@ -374,6 +386,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
@@ -389,6 +402,7 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCatch2_DIR=/app
       - -DPYTHON_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
