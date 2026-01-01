@@ -388,6 +388,8 @@ modules:
       - --enable-shared
       - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.gnu.org/releases/g-wrap/g-wrap-1.9.15.tar.gz
@@ -403,6 +405,8 @@ modules:
       - --enable-shared
       - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
@@ -419,6 +423,8 @@ modules:
       - --enable-shared
       - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.nongnu.org/releases/guile-lib/guile-lib-0.2.7.tar.gz
@@ -434,6 +440,8 @@ modules:
       - --enable-shared
       - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG -Wno-error
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
@@ -503,7 +511,7 @@ modules:
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
       - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
     build-options:
-      cxxflags: -O3
+      cxxflags: -fPIC -O3
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
