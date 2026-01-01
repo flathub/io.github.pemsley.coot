@@ -249,8 +249,8 @@ modules:
         x-checker-data:
           type: html
           url: http://www.bmsc.washington.edu/raster3d/
-          version-pattern: Raster3D_([\d\.-]+)\.tar\.gz
-          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
+          version-pattern: Raster3D_([\d\.-]+)\.tar
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar
       - type: patch
         path: patches/fix-raster3d-Makefile.template.patch
 
