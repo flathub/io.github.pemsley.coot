@@ -76,6 +76,7 @@ modules:
           stable-only: false
           tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
 
+  # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
     buildsystem: autotools
     config-opts:
