@@ -78,9 +78,14 @@ modules:
   - name: fftw2
     buildsystem: autotools
     config-opts:
-      - --enable-shared
       - --enable-float
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
       cflags: -fPIC -O3 -DNDEBUG
     sources:
@@ -95,8 +100,13 @@ modules:
   - name: mmdb2
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
       cxxflags: -O2 -fPIC -fno-strict-aliasing -std=c++11 -DNDEBUG
     sources:
@@ -112,9 +122,14 @@ modules:
   - name: libccp4
     buildsystem: autotools
     config-opts:
+      - --disable-fortran
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
-      - --disable-fortran
+      - --disable-Werror
     build-options:
       cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG 
       cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
@@ -143,8 +158,13 @@ modules:
       - --enable-cif
       - --enable-minimol
       - --enable-cns
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
       cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11 -DNDEBUG
     sources:
@@ -166,8 +186,13 @@ modules:
     buildsystem: autotools
     config-opts:
       - --enable-ccp4
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
       cflags: -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
@@ -185,6 +210,13 @@ modules:
     config-opts:
       - --without-x
       - --without-xpm
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
     build-options:
       cflags: -O2 -Wno-error=unused-result -Wno-error=old-style-definition -fPIC -DNDEBUG
       cxxflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
@@ -246,7 +278,13 @@ modules:
   - name: libdwarf
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
+      - --disable-static
+      - --disable-Werror
     build-options:
       cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
@@ -262,7 +300,13 @@ modules:
   - name: gsl
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
+      - --disable-static
+      - --disable-Werror
     build-options:
       cflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
     sources:
@@ -297,6 +341,9 @@ modules:
       - --disable-debug
       - --disable-docs
       - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     build-options:
       cflags: -fPIC -O2 -DNDEBUG
     sources:
@@ -316,8 +363,13 @@ modules:
     config-opts:
       - --with-libltdl-prefix=/app
       - --with-libreadline-prefix=/app
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     build-options:
-      cflags: -fPIC -O2 -DNDEBUG
+      cflags: -fPIC -O2
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile/guile-2.2.7.tar.xz
@@ -326,6 +378,12 @@ modules:
   - name: g-wrap
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
       - --disable-Werror
     sources:
       - type: archive
@@ -334,6 +392,14 @@ modules:
 
   - name: guile-cairo
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
     sources:
       - type: archive
         url: http://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
@@ -343,6 +409,13 @@ modules:
     buildsystem: autotools
     config-opts:
       - --with-guile-site=yes
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
     sources:
       - type: archive
         url: https://download.savannah.nongnu.org/releases/guile-lib/guile-lib-0.2.7.tar.gz
@@ -350,6 +423,14 @@ modules:
 
   - name: guile-gnome-platform
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
@@ -357,6 +438,12 @@ modules:
 
   - name: swig
     buildsystem: autotools
+    config-opts:
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     sources:
       - type: archive
         url: https://github.com/swig/swig/archive/refs/tags/v4.3.0.tar.gz
@@ -467,6 +554,10 @@ modules:
       - --with-backward
       - --with-libdw
       - --with-sound
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
