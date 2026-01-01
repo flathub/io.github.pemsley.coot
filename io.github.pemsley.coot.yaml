@@ -405,7 +405,7 @@ modules:
       - --disable-Werror
     sources:
       - type: archive
-        url: http://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
+        url: https://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
         sha256: ae3d7e0f0a8ae93d0a15c692514eb30f2478d407052064976fc59a291cccdd5c
 
   - name: guile-lib
