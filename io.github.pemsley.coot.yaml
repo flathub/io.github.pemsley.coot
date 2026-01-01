@@ -35,7 +35,6 @@ modules:
       - -DUSE_THREAD=ON
       - -DNO_AFFINITY=ON
       - -DNUM_THREADS=64
-      - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
     post-install:
