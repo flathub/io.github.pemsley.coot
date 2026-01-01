@@ -11,7 +11,7 @@ finish-args:
   - --filesystem=home
   - --share=network
   - --env=GDK_CORE_DEVICE_EVENTS=1
-  - --env=GDK_DEBUG=gl-prefer-gl
+  - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
   - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
 cleanup:
