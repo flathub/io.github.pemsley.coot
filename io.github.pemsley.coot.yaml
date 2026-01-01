@@ -554,17 +554,20 @@ modules:
       - --with-boost=/app
       - --with-boost-libdir=/app/lib
       - --with-fftw-prefix=/app
+      - --with-gemmi=/app
+      - --with-glm=/app
       - --with-rdkit-prefix=/app
-      - --with-guile
-      - --with-enhanced-ligand-tools
-      - --with-sqlite3
       - --with-backward
+      - --with-coordgen
       - --with-libdw
+      - --with-guile
       - --with-sound
+      - --with-sqlite3
       - --disable-dependency-tracking
       - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --enable-relocatable-binaries
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
