@@ -308,7 +308,9 @@ modules:
       - --disable-static
       - --disable-Werror
     build-options:
-      cflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
+      cflags: -O3 -fPIC -DNDEBUG
+      cppflags: -I/app/include
+      ldflags: -L/app/lib -lopenblas
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
