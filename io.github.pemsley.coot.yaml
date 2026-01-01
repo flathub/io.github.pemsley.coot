@@ -96,7 +96,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: -g -O2 -fPIC -std=c++11
+      cxxflags: -O2 -fPIC -std=c++11
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
@@ -144,7 +144,7 @@ modules:
       - --enable-shared
       - --disable-static
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
@@ -200,7 +200,7 @@ modules:
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
     build-commands:
       - make linux
       - make all
