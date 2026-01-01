@@ -54,7 +54,7 @@ modules:
           versions:
             <: '0.3.30'  # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
-  # gemmi, nanobind, numpy, servalcat
+  # gemmi, nanobind, numpy, servalcat, omegaconf, packaging, pandas, scipy
   - deps/pypi-dependencies.json
 
   - name: gemmi
