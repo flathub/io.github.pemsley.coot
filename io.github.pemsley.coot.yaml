@@ -41,20 +41,17 @@ modules:
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
     cleanup:
       - /bin
-      - /include
-      - /lib/cmake
-      - /lib/*.a
-      - /lib/*.la
-      - /lib/pkgconfig
-      - /share/man
     sources:
-      - type: git
-        url: https://github.com/OpenMathLib/OpenBLAS.git
-        tag: v0.3.29
+      - type: archive
+        url: https://github.com/OpenMathLib/OpenBLAS/archive/v0.3.29.tar.gz
+        sha256: 38240eee1b29e2bde47ebb5d61160207dc68668a54cac62c076bb5032013b1eb
         x-checker-data:
           type: anitya
           project-id: 2540
+          stable-only: true
           url-template: https://github.com/OpenMathLib/OpenBLAS/archive/v$version.tar.gz
+          versions:
+            <: '0.3.30'  # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
   # markupsafe, meson-python, nanobind, numpy, Cython
   - deps/pypi-dependencies.json
@@ -67,12 +64,13 @@ modules:
     build-options:
       cxxflags: -fPIC -O2
     sources:
-      - type: git
-        url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.7.3
+      - type: archive
+        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
+        sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
         x-checker-data:
           type: anitya
           project-id: 22936
+          stable-only: false
           tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
 
   - name: fftw2
@@ -103,6 +101,11 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
         sha256: a9646933ce9f34633e1ae4901f2383af0e5318d6490851328f5b6aa06195ab51
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: mmdb2-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-$version.tar.gz
 
   - name: libccp4
     buildsystem: autotools
@@ -117,8 +120,14 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: libccp4-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
       - type: shell
         commands:
+          # Workarounds for gcc 15
           - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed
             -i '1i \#include <stdlib.h>' library_utils.c; fi
           - cd ccp4 && sed -i -E 's/^[[:space:]]*int[[:space:]]+putenv[[:space:]]*\([^;]*\)[[:space:]]*;/extern
@@ -140,11 +149,34 @@ modules:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: clipper-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-$version.tar.gz
       - type: patch
         path: patches/clipper-configure-2.patch
       - type: shell
         commands:
           - sed -i 's/libccp4c/ccp4c/g' configure
+
+  - name: ssm
+    buildsystem: autotools
+    config-opts:
+      - --enable-ccp4
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -fPIC
+    sources:
+      - type: archive
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
+        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: ssm-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-$version.tar.gz
 
   - name: libgd
     buildsystem: autotools
@@ -154,12 +186,13 @@ modules:
     build-options:
       cflags: -Wno-error=unused-result -Wno-error=old-style-definition
     sources:
-      - type: git
-        url: https://github.com/libgd/libgd.git
-        tag: gd-2.3.3
+      - type: archive
+        url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
+        sha256: 3fe822ece20796060af63b7c60acb151e5844204d289da0ce08f8fdf131e5a61
         x-checker-data:
           type: anitya
           project-id: 880
+          stable-only: true
           url-template: https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.xz
       - type: patch
         path: patches/gd.h.patch
@@ -176,21 +209,13 @@ modules:
       - type: archive
         url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar
         sha256: 4f6999f8d446ed2d7ef32d4f7abaa1d63fa1fa78686e79cecafc06c5ae6b122d
+        x-checker-data:
+          type: html
+          url: http://www.bmsc.washington.edu/raster3d/
+          version-pattern: Raster3D_([\d\.-]+)\.tar\.gz
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
       - type: patch
         path: patches/fix-raster3d-Makefile.template.patch
-
-  - name: ssm
-    buildsystem: autotools
-    config-opts:
-      - --enable-ccp4
-      - --enable-shared
-      - --disable-static
-    build-options:
-      cflags: -fPIC
-    sources:
-      - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
-        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
 
   - name: boost
     buildsystem: simple
@@ -206,12 +231,13 @@ modules:
     cleanup:
       - /share/boost
     sources:
-      - type: git
-        url: https://github.com/boostorg/boost.git
-        tag: boost-1.87.0
+      - type: archive
+        url: https://github.com/boostorg/boost/releases/download/boost-1.87.0/boost-1.87.0-b2-nodocs.tar.xz
+        sha256: 3abd7a51118a5dd74673b25e0a3f0a4ab1752d8d618f4b8cea84a603aeecc680
         x-checker-data:
           type: anitya
           project-id: 6845
+          stable-only: true
           url-template: https://github.com/boostorg/boost/releases/download/boost-$version/boost-$version-b2-nodocs.tar.xz
 
   - name: libdwarf
@@ -225,6 +251,7 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 1597
+          stable-only: true
           url-template: https://www.prevanders.net/libdwarf-$version.tar.xz
 
   - name: gsl
@@ -236,6 +263,7 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 1267
+          stable-only: true
           url-template: https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz
 
   - name: glm
@@ -244,12 +272,13 @@ modules:
       - -DGLM_BUILD_TESTS=OFF
       - -DBUILD_SHARED_LIBS=ON
     sources:
-      - type: git
-        url: https://github.com/g-truc/glm.git
-        tag: 1.0.1
+      - type: archive
+        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
+        sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
         x-checker-data:
           type: anitya
           project-id: 1181
+          stable-only: true
           url-template: https://github.com/g-truc/glm/archive/refs/tags/$version.tar.gz
 
   - name: bdw-gc
@@ -261,14 +290,17 @@ modules:
     build-options:
       cflags: -fPIC -O2
     sources:
-      - type: git
-        url: https://github.com/ivmai/bdwgc.git
-        tag: v8.2.4
+      - type: archive
+        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.4.tar.gz
+        sha256: 18e63ab1428bd52e691da107a6a56651c161210b11fbe22e2aa3c31f7fa00ca5
         x-checker-data:
           type: anitya
           project-id: 17108
+          stable-only: true
           url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
+  # NOTE: Guile 3.0 is currently incompatible with the GTK4-based Coot build.
+  # Keep at 2.2.7 until upstream supports 3.0.
   - name: guile
     buildsystem: autotools
     config-opts:
@@ -314,12 +346,13 @@ modules:
   - name: swig
     buildsystem: autotools
     sources:
-      - type: git
-        url: https://github.com/swig/swig.git
-        tag: v4.3.0
+      - type: archive
+        url: https://github.com/swig/swig/archive/refs/tags/v4.3.0.tar.gz
+        sha256: f2136da1137a20dfcec795fe0d17ca1a2465d28e3b307f122526629b6b2f2294
         x-checker-data:
           type: anitya
           project-id: 6131
+          stable-only: true
           url-template: https://github.com/swig/swig/archive/refs/tags/v$version.tar.gz
 
   - name: Catch2
@@ -328,12 +361,13 @@ modules:
     config-opts:
       - -DCMAKE_CXX_STANDARD=17
     sources:
-      - type: git
-        url: https://github.com/catchorg/Catch2.git
-        tag: v3.7.1
+      - type: archive
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
+        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
         x-checker-data:
           type: anitya
           project-id: 7680
+          stable-only: true
           url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
 
   - name: eigen
@@ -342,12 +376,13 @@ modules:
     config-opts:
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
-      - type: git
-        url: https://gitlab.com/libeigen/eigen.git
-        tag: 3.3.9
+      - type: archive
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
+        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
         x-checker-data:
           type: anitya
           project-id: 13751
+          stable-only: true
           url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
 
   - name: rdkit
@@ -390,7 +425,7 @@ modules:
         sha256: 765339356391422ad7f0258f8b746d8010da205762784a84980936e8b38e03ce
         strip-components: 0
       - type: file
-        url: https://raw.githubusercontent.com/aantron/better-enums/refs/tags/0.11.3/enum.h
+        url: https://raw.githubusercontent.com/aantron/better-enums/refs/tags/0.11.3/enum.h  # Single header-only library
         sha256: 43a55c487052cfe068ecf1e4496d52128161bfb82c06c343eea85f177f235e04
       - type: shell
         commands:
@@ -403,8 +438,8 @@ modules:
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
-          - cp enum.h Code/RDGeneral
-          - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt
+          - cp enum.h Code/RDGeneral  # Place it in the required location in advance
+          - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt  # Prevent downloading
 
   - name: coot
     buildsystem: autotools
