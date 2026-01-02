@@ -66,6 +66,11 @@ modules:
       - type: archive
         url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
         sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
+        x-checker-data:
+          type: anitya
+          project-id: 22936
+          stable-only: false
+          tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
 
   # nanobind, numpy, servalcat, omegaconf, packaging, pandas, scipy
   - deps/pypi-dependencies.json
@@ -490,7 +495,7 @@ modules:
           stable-only: true
           url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
           versions:
-            <: 4.0.0a0    
+            <: 4.0.0a0
 
   - name: rdkit
     buildsystem: cmake-ninja
