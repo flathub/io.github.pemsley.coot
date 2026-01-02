@@ -1,17 +1,21 @@
 app-id: io.github.pemsley.coot
 runtime: org.gnome.Platform
-runtime-version: '48'  # include python 3.12.9
+runtime-version: '49'  # include python 3.13.9
 sdk: org.gnome.Sdk
 command: coot
 finish-args:
   - --socket=x11
+  - --socket=pulseaudio
   - --share=ipc
   - --device=dri
   - --filesystem=home
   - --share=network
   - --env=GDK_CORE_DEVICE_EVENTS=1
+  - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
+  - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
-  - --env=GDK_DEBUG=gl-prefer-gl
+  - --env=LIBMOL_ROOT=/app
+  - --env=CLIBD_MON=/app/share/acedrg/tables
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -28,90 +32,164 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_OPENMP=ON
+      - -DUSE_THREAD=ON
+      - -DNO_AFFINITY=ON
       - -DNUM_THREADS=64
-      - -DNO_SVE=ON
       - -DBUILD_SHARED_LIBS=ON
       - -DDYNAMIC_ARCH=ON
-    build-options:
-      cflags: -fPIC -O3
     post-install:
       - ln -s /app/lib/libopenblas.so /app/lib/libblas.so
       - ln -s /app/lib/libopenblas.so /app/lib/liblapack.so
     cleanup:
       - /bin
-      - /include
-      - /lib/cmake
-      - /lib/*.a
-      - /lib/*.la
-      - /lib/pkgconfig
-      - /share/man
     sources:
       - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.29/OpenBLAS-0.3.29.tar.gz
-        sha512: 046316b4297460bffca09c890ecad17ea39d8b3db92ff445d03b547dd551663d37e40f38bce8ae11e2994374ff01e622b408da27aa8e40f4140185ee8f001a60
+        url: https://github.com/OpenMathLib/OpenBLAS/archive/v0.3.29.tar.gz
+        sha256: 38240eee1b29e2bde47ebb5d61160207dc68668a54cac62c076bb5032013b1eb
         x-checker-data:
           type: anitya
           project-id: 2540
+          stable-only: true
           url-template: https://github.com/OpenMathLib/OpenBLAS/archive/v$version.tar.gz
+          versions:
+            <: 0.3.30    # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
-  # markupsafe, meson-python, nanobind, numpy
+  # nanobind, numpy, omegaconf, packaging, pandas, scipy
   - deps/pypi-dependencies.json
 
+  # Do not update automatically to match the gemmi version used by servalcat
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DUSE_PYTHON=ON
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.12/site-packages
+      - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
     build-options:
-      cxxflags: -fPIC -O2
+      cxxflags: -fPIC -O3
+    sources:
+      - type: archive
+        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
+        sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
+
+  - name: servalcat
+    buildsystem: simple
+    build-commands:
+      - |
+        pip3 install . \
+          --verbose \
+          --exists-action=i \
+          --no-deps \
+          --no-index \
+          --no-build-isolation \
+          --prefix=${FLATPAK_DEST} \
+          --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
+    sources:
+      - type: archive
+        url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
+        sha256: 240ebe686a05b753f40c73276ea02abf6376b924d3b693a76eb2675e23a06634
+        x-checker-data:
+          type: pypi
+          name: servalcat
+
+  - name: acedrg
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_CXX_STANDARD=17
+      - -DPython_EXECUTABLE=/usr/bin/python3
+      - -DPYTHON_VERSION=3
+      - -DPython_SITELIB=/app/lib/python3.13/site-packages
+    build-options:
+      cxxflags: -fPIC -O3
+    post-install:
+      - ln -sf /app/libexec/libmol /app/bin/libmol
     sources:
       - type: git
-        url: https://github.com/project-gemmi/gemmi.git
-        tag: v0.7.3
+        url: https://ccp4forge.rc-harwell.ac.uk/ccp4/acedrg.git
+        commit: 8e54f9bdfb21403e4b0b0a12c9abc11576c42094
+      - type: shell
+        commands:
+          - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")' CMakeLists.txt
+          - sed -i 's|ccp4-python|python|' bin/acedrg
 
+  # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
     buildsystem: autotools
     config-opts:
-      - --enable-shared
       - --enable-float
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cflags: -fPIC -O3
+      cflags: -fPIC -O3 -DNDEBUG
     sources:
       - type: archive
         url: https://fftw.org/fftw-2.1.5.tar.gz
         sha256: f8057fae1c7df8b99116783ef3e94a6a44518d49c72e2e630c24b689c6022630
       - type: shell
         commands:
-          - cp /usr/share/gnu-config/config.sub .
-          - cp /usr/share/gnu-config/config.guess .
+          - cp -f /usr/share/libtool/build-aux/config.sub .
+          - cp -f /usr/share/libtool/build-aux/config.guess .
 
   - name: mmdb2
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cxxflags: -g -O2 -fPIC -std=c++11
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
         sha256: a9646933ce9f34633e1ae4901f2383af0e5318d6490851328f5b6aa06195ab51
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: mmdb2-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-$version.tar.gz
 
   - name: libccp4
     buildsystem: autotools
     config-opts:
+      - --disable-fortran
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
-      - --disable-fortran
+      - --disable-Werror
     build-options:
-      cflags: -fPIC -O2
-      cxxflags: -fPIC -O2
+      cflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
+      cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: libccp4-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
+      - type: shell
+        commands:
+          # Workarounds for gcc 15
+          - cd ccp4 && if ! grep -q '^#include <stdlib.h>' library_utils.c; then sed
+            -i '1i \#include <stdlib.h>' library_utils.c; fi
+          - cd ccp4 && sed -i -E 's/^[[:space:]]*int[[:space:]]+putenv[[:space:]]*\([^;]*\)[[:space:]]*;/extern
+            int putenv(char *);/' library_utils.c
 
   - name: clipper
     buildsystem: autotools
@@ -121,103 +199,183 @@ modules:
       - --enable-cif
       - --enable-minimol
       - --enable-cns
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
       - --disable-static
+      - --disable-Werror
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11 -DNDEBUG
     sources:
       - type: archive
         url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: clipper-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-$version.tar.gz
       - type: patch
         path: patches/clipper-configure-2.patch
       - type: shell
         commands:
-          - sed -i 's/libccp4c/ccp4c/g' configure
+          - sed -i 's|libccp4c|ccp4c|g' configure
+
+  - name: ssm
+    buildsystem: autotools
+    config-opts:
+      - --enable-ccp4
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -fPIC -fno-strict-aliasing -DNDEBUG
+    sources:
+      - type: archive
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
+        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
+        x-checker-data:
+          type: html
+          url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
+          version-pattern: ssm-([\d\.]+)\.tar\.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-$version.tar.gz
 
   - name: libgd
     buildsystem: autotools
     config-opts:
       - --without-x
       - --without-xpm
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -Wno-error=unused-result -Wno-error=old-style-definition -fPIC -DNDEBUG
+      cxxflags: -O2 -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
         sha256: 3fe822ece20796060af63b7c60acb151e5844204d289da0ce08f8fdf131e5a61
+        x-checker-data:
+          type: anitya
+          project-id: 880
+          stable-only: true
+          url-template: https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.xz
       - type: patch
         path: patches/gd.h.patch
 
   - name: raster3d
     buildsystem: simple
     build-options:
-      cxxflags: -g -O2 -fno-strict-aliasing -Wno-narrowing -fPIC
+      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     build-commands:
       - make linux
       - make all
       - make install
     sources:
       - type: archive
-        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-7.tar.gz
-        sha256: f566b499fee341db3a95229672c6afdbdb69da7faabdbe34f6e0d332d766160c
+        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar
+        sha256: 4f6999f8d446ed2d7ef32d4f7abaa1d63fa1fa78686e79cecafc06c5ae6b122d
+        x-checker-data:
+          type: html
+          url: http://www.bmsc.washington.edu/raster3d/
+          version-pattern: Raster3D_([\d\.-]+)\.tar
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar
       - type: patch
-        path: patches/Makefile.template.patch
-
-  - name: ssm
-    buildsystem: autotools
-    config-opts:
-      - --enable-ccp4
-      - --enable-shared
-      - --disable-static
-    build-options:
-      cflags: -fPIC
-    sources:
-      - type: archive
-        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-1.4.tar.gz
-        sha256: 56e7e64ed86d7d9ec59500fd34f26f881bdb9d541916d9a817c3bfb8cf0e9508
+        path: patches/fix-raster3d-Makefile.template.patch
 
   - name: boost
     buildsystem: simple
     build-commands:
-      - ./bootstrap.sh --without-icu --with-python=python3.12 --with-python-root=/usr
+      - ./bootstrap.sh --without-icu --with-python=python3.13 --with-python-root=/usr
         --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
         --prefix=/app --libdir=/app/lib
-      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.12
+      - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
     build-options:
-      cflags: -fPIC
-      cxxflags: -fPIC -std=c++14
+      cflags: -fPIC -DNDEBUG
+      cxxflags: -fPIC -std=c++14 -DNDEBUG
     cleanup:
       - /share/boost
     sources:
-      - type: git
-        url: https://github.com/boostorg/boost.git
-        tag: boost-1.87.0
+      - type: archive
+        url: https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-b2-nodocs.tar.xz
+        sha256: 9e6bee9ab529fb2b0733049692d57d10a72202af085e553539a05b4204211a6f
+        x-checker-data:
+          type: anitya
+          project-id: 6845
+          stable-only: true
+          url-template: https://github.com/boostorg/boost/releases/download/boost-$version/boost-$version-b2-nodocs.tar.xz
 
   - name: libdwarf
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
       - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-0.11.0.tar.xz
-        sha256: 846071fb220ac1952f9f15ebbac6c7831ef50d0369b772c07a8a8139a42e07d2
+        url: https://www.prevanders.net/libdwarf-2.2.0.tar.xz
+        sha256: 54c0abbbeb4190bd1babb5d28574d2b20c2309343ec764cc7ca611e527ee4a42
+        x-checker-data:
+          type: anitya
+          project-id: 1597
+          stable-only: true
+          url-template: https://www.prevanders.net/libdwarf-$version.tar.xz
 
   - name: gsl
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O3 -fPIC -DNDEBUG
+      ldflags: -L/app/lib -lopenblas
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
         sha256: 6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190
+        x-checker-data:
+          type: anitya
+          project-id: 1267
+          stable-only: true
+          url-template: https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz
 
   - name: glm
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DGLM_BUILD_TESTS=OFF
       - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
-        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
-        sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
+        url: https://github.com/g-truc/glm/archive/refs/tags/1.0.3.tar.gz
+        sha256: 6775e47231a446fd086d660ecc18bcd076531cfedd912fbd66e576b118607001
+        x-checker-data:
+          type: anitya
+          project-id: 1181
+          stable-only: true
+          url-template: https://github.com/g-truc/glm/archive/refs/tags/$version.tar.gz
 
   - name: bdw-gc
     buildsystem: autotools
@@ -225,18 +383,35 @@ modules:
       - --disable-debug
       - --disable-docs
       - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     build-options:
-      cflags: -fPIC -O2
+      cflags: -fPIC -O2 -DNDEBUG
     sources:
-      - type: git
-        url: https://github.com/ivmai/bdwgc
-        tag: v8.2.4
+      - type: archive
+        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.10.tar.gz
+        sha256: 5858a417ab3eaac2add0daf79cd29ddf248c9f648e6c08092b775dcbfcbe1edb
+        x-checker-data:
+          type: anitya
+          project-id: 17108
+          stable-only: true
+          url-template: https://github.com/ivmai/bdwgc/archive/refs/tags/v$version.tar.gz
 
+  # NOTE: The 'guile-gnome-platform' is currently incompatible with Guile 3.0.
+  # Use Guile 2.2.7 until 'guile-gnome-platform' or an alternative (like G-Golf) is ready for Guile 3.0 and GTK4.
   - name: guile
     buildsystem: autotools
     config-opts:
       - --with-libltdl-prefix=/app
       - --with-libreadline-prefix=/app
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -fPIC -O2
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile/guile-2.2.7.tar.xz
@@ -245,23 +420,50 @@ modules:
   - name: g-wrap
     buildsystem: autotools
     config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
       - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: http://savannah.nongnu.org/download/g-wrap/g-wrap-1.9.15.tar.gz
+        url: https://download.savannah.gnu.org/releases/g-wrap/g-wrap-1.9.15.tar.gz
         sha256: 0ff6e2700e74b457323726f7c2551a466d8ba44339705f6792d7b533145c602a
 
   - name: guile-cairo
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: http://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
+        url: https://download.savannah.gnu.org/releases/guile-cairo/guile-cairo-1.10.0.tar.gz
         sha256: ae3d7e0f0a8ae93d0a15c692514eb30f2478d407052064976fc59a291cccdd5c
 
   - name: guile-lib
     buildsystem: autotools
     config-opts:
       - --with-guile-site=yes
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --disable-Werror
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://download.savannah.nongnu.org/releases/guile-lib/guile-lib-0.2.7.tar.gz
@@ -269,6 +471,15 @@ modules:
 
   - name: guile-gnome-platform
     buildsystem: autotools
+    config-opts:
+      - --disable-debug
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+    build-options:
+      cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
         url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
@@ -276,44 +487,79 @@ modules:
 
   - name: swig
     buildsystem: autotools
+    config-opts:
+      - --disable-docs
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
     sources:
-      - type: git
-        url: https://github.com/swig/swig.git
-        tag: v4.3.0
+      - type: archive
+        url: https://github.com/swig/swig/archive/refs/tags/v4.4.1.tar.gz
+        sha256: 8bf32042beb7ee1eeb5c71aa15a62513d964893f84234f2cd77e4a8e2ed41e87
+        x-checker-data:
+          type: anitya
+          project-id: 6131
+          stable-only: true
+          url-template: https://github.com/swig/swig/archive/refs/tags/v$version.tar.gz
 
   - name: Catch2
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
-        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.12.0.tar.gz
+        sha256: e077079f214afc99fee940d91c14cf1a8c1d378212226bb9f50efff75fe07b23
+        x-checker-data:
+          type: anitya
+          project-id: 7680
+          stable-only: true
+          url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
 
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
-        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.gz
+        sha256: b93c667d1b69265cdb4d9f30ec21f8facbbe8b307cf34c0b9942834c6d4fdbe2
+        x-checker-data:
+          type: anitya
+          project-id: 13751
+          stable-only: true
+          url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
+          versions:
+            <: 4.0.0a0
 
   - name: rdkit
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
       - -DCatch2_DIR=/app
-      - -DPYTHON_EXECUTABLE=/usr/bin/python3
-      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.12
+      - -DPython_EXECUTABLE=/usr/bin/python3
+      - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
+      - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
+    build-options:
+      cxxflags: -fPIC -O3
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2024_09_5
+        tag: Release_2025_09_4
+        commit: 9b69dd2a400b43a2ac5a311fef786628c257f4b1
+        x-checker-data:
+          type: git
+          tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
       - type: archive
         url: https://github.com/schrodinger/maeparser/archive/refs/tags/v1.3.1.tar.gz
         sha256: a8d80f67d1b9be6e23b9651cb747f4a3200132e7d878a285119c86bf44568e36
@@ -334,6 +580,9 @@ modules:
         url: https://github.com/Tencent/rapidjson/archive/858451e.tar.gz
         sha256: 765339356391422ad7f0258f8b746d8010da205762784a84980936e8b38e03ce
         strip-components: 0
+      - type: file
+        url: https://raw.githubusercontent.com/aantron/better-enums/refs/tags/0.11.3/enum.h  # Single header-only library
+        sha256: 43a55c487052cfe068ecf1e4496d52128161bfb82c06c343eea85f177f235e04
       - type: shell
         commands:
           - mkdir -p External/CoordGen/{maeparser,coordgen}
@@ -345,15 +594,29 @@ modules:
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
+          - cp enum.h Code/RDGeneral  # Place it in the required location in advance
+          - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt  # Prevent downloading
 
   - name: coot
     buildsystem: autotools
     config-opts:
+      - --with-boost=/app
       - --with-boost-libdir=/app/lib
+      - --with-fftw-prefix=/app
+      - --with-gemmi=/app
+      - --with-glm=/app
       - --with-rdkit-prefix=/app
-      - --with-guile
       - --with-backward
+      - --with-coordgen
       - --with-libdw
+      - --with-guile
+      - --with-sound
+      - --with-sqlite3
+      - --disable-dependency-tracking
+      - --disable-silent-rules
+      - --enable-shared
+      - --disable-static
+      - --enable-relocatable-binaries
     build-options:
       cxxflags: -g -O1 -fPIC
       env:
