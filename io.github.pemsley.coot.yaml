@@ -77,16 +77,14 @@ modules:
     buildsystem: simple
     build-commands:
       - >
-        pip3 install
+        pip3 install .
           --verbose
           --exists-action=i
           --no-deps
           --no-index
-          --find-links="file://${PWD}"
-          --prefix=${FLATPAK_DEST}
-          "servalcat"
-          --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
           --no-build-isolation
+          --prefix=${FLATPAK_DEST}
+          --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
         url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
