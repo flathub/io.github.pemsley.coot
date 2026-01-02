@@ -13,5 +13,6 @@ wheel  # for pandas
 Cython<4.0.0a0  # for pandas, scipy, pyyaml
 
 # run deps
+networkx  # for acedrg
 numpy  # for rdkit
-servalcat  # for coot
+pdbecif  # for acedrg

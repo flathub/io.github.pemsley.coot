@@ -54,6 +54,11 @@ pushd "$REPO_ROOT" >/dev/null
     --requirements-file="${REPO_ROOT}/deps/requirements.txt" \
     --output="${REPO_ROOT}/deps/pypi-dependencies" \
     --checker-data
+"${PIP_DIR}/flatpak-pip-generator" \
+    --runtime='org.gnome.Sdk//49' \
+    --output="${REPO_ROOT}/deps/servalcat" \
+    --checker-data \
+    servalcat
 popd >/dev/null
 
 echo "pypi dependencies generation complete"

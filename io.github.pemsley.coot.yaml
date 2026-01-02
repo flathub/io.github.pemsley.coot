@@ -54,6 +54,9 @@ modules:
           versions:
             <: 0.3.30    # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
+  # nanobind, numpy, omegaconf, packaging, pandas, scipy
+  - deps/pypi-dependencies.json
+
   # Do not update automatically to match the gemmi version used by servalcat
   - name: gemmi
     buildsystem: cmake-ninja
@@ -68,8 +71,7 @@ modules:
         url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
         sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
 
-  # nanobind, numpy, servalcat, omegaconf, packaging, pandas, scipy
-  - deps/pypi-dependencies.json
+  - deps/servalcat.json
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
@@ -552,6 +554,26 @@ modules:
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
           - cp enum.h Code/RDGeneral  # Place it in the required location in advance
           - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt  # Prevent downloading
+
+  - name: acedrg
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_CXX_STANDARD=17
+      - -DPYTHON_EXECUTABLE=/usr/bin/python3
+      - -DPYTHON_VERSION=3
+    build-options:
+      cxxflags: -fPIC -O3
+    post-install:
+      - ln -sf /app/libexec/libmol /app/bin/libmol
+    sources:
+      - type: git
+        url: https://ccp4forge.rc-harwell.ac.uk/ccp4/acedrg.git
+        commit: 8e54f9bdfb21403e4b0b0a12c9abc11576c42094
+      - type: shell
+        commands:
+          - sed -i 's|ccp4-python|python|' bin/acedrg
 
   - name: coot
     buildsystem: autotools
