@@ -2,12 +2,12 @@
 flit-core>=3.12  # for packaging
 meson>=1.2.1,<2  # for numpy, scipy, pandas
 meson-python>=0.15.0  # for numpy, scipy, pandas
-nanobind==2.9.2  # for coot, servalcat, gemmi
+nanobind==2.7.0  # for coot, servalcat, gemmi
 numpy>=2.0.0rc1  # for pandas
 pybind11>=2.13.2  # for scipy
 pythran>=0.14.0  # for scipy
 setuptools  # for pyyaml
-scikit-build-core==0.11.6  # for servalcat, gemmi
+scikit-build-core==0.11.5  # for servalcat, gemmi
 versioneer[toml]  # for pandas
 wheel  # for pandas
 Cython<4.0.0a0  # for pandas, scipy, pyyaml
@@ -19,9 +19,10 @@ pdbecif  # for acedrg
 
 # run for servalcat
 antlr4-python3-runtime
-numpy
-omegaconf
-pandas
+numpy>=1.15
+omegaconf==2.3.0
+packaging
+pandas>=1.1.0
 python_dateutil
 pytz
 pyyaml
