@@ -73,7 +73,19 @@ modules:
         url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
         sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
 
-  - deps/servalcat.json
+  - name: servalcat
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-deps --no-index --no-build-isolation \
+          --find-links=file://${PWD} --prefix=${FLATPAK_DEST} servalcat \
+          --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
+    sources:
+      - type: archive
+        url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
+        sha256: 240ebe686a05b753f40c73276ea02abf6376b924d3b693a76eb2675e23a06634
+        x-checker-data:
+          type: pypi
+          name: servalcat
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
