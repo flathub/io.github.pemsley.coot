@@ -58,8 +58,7 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DUSE_PYTHON=ON
-      - -DPYTHON_INSTALL_DIR=/app/lib/python3.13/site-packages
+      - -DUSE_PYTHON=OFF  # Use PyPI package for Python bindings
     build-options:
       cxxflags: -fPIC -O3
     sources:
