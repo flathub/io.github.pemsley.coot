@@ -16,3 +16,15 @@ Cython<4.0.0a0  # for pandas, scipy, pyyaml
 networkx  # for acedrg
 numpy  # for rdkit
 pdbecif  # for acedrg
+
+## run for servalcat
+#antlr4-python3-runtime
+#numpy
+#omegaconf
+#pandas
+#python_dateutil
+#pytz
+#pyyaml
+#scipy
+#six
+#tzdata

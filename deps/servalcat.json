@@ -2,7 +2,7 @@
     "name": "python3-servalcat",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"servalcat\" --no-build-isolation --config-settings=\"cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake\""
+        "pip3 install --verbose --exists-action=i --no-deps --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"servalcat\" --no-build-isolation --config-settings=\"cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake\""
     ],
     "sources": [
         {

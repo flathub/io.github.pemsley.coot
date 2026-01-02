@@ -58,6 +58,7 @@ pushd "$REPO_ROOT" >/dev/null
     --runtime='org.gnome.Sdk//49' \
     --output="${REPO_ROOT}/deps/servalcat" \
     --checker-data \
+    --ignore-pkg=gemmi
     servalcat
 popd >/dev/null
 
