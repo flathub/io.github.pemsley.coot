@@ -515,7 +515,7 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCatch2_DIR=/app
-      - -DPYTHON_EXECUTABLE=/usr/bin/python3
+      - -DPython_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
@@ -575,8 +575,9 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_CXX_STANDARD=17
-      - -DPYTHON_EXECUTABLE=/usr/bin/python3
+      - -DPython_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_VERSION=3
+      - -DPython_SITELIB=/app/lib/python3.13/site-packages
     build-options:
       cxxflags: -fPIC -O3
     post-install:
