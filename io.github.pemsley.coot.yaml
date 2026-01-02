@@ -104,6 +104,8 @@ modules:
       - -DPython_SITELIB=/app/lib/python3.13/site-packages
     build-options:
       cxxflags: -fPIC -O3
+      env:
+        PYTHONUSERBASE: /app
     post-install:
       - ln -sf /app/libexec/libmol /app/bin/libmol
     sources:
