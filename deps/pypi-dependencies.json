@@ -235,7 +235,7 @@
             "name": "python3-servalcat",
             "buildsystem": "simple",
             "build-commands": [
-                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"servalcat\" --no-build-isolation --config-settings=\"cmake.args=-Dgemmi_DIR=/app/lib/python3.13/site-packages/gemmi/cmake;-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake\""
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"servalcat\" --no-build-isolation --config-settings=\"cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake\""
             ],
             "sources": [
                 {
@@ -246,11 +246,6 @@
                         "type": "pypi",
                         "name": "antlr4-python3-runtime"
                     }
-                },
-                {
-                    "type": "file",
-                    "url": "https://files.pythonhosted.org/packages/6d/ed/aee9d2e2462ee117c15ed02082999804dd6c52a2be17f1198c9c805c5716/gemmi-0.7.3.tar.gz",
-                    "sha256": "32069b111216aad58a9724640fb23a31309c15a1aaf16164b4c9addc3677fadb"
                 },
                 {
                     "type": "file",
