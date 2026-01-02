@@ -104,8 +104,6 @@ modules:
       - -DPython_SITELIB=/app/lib/python3.13/site-packages
     build-options:
       cxxflags: -fPIC -O3
-      env:
-        PYTHONUSERBASE: /app
     post-install:
       - ln -sf /app/libexec/libmol /app/bin/libmol
     sources:
@@ -114,6 +112,7 @@ modules:
         commit: 8e54f9bdfb21403e4b0b0a12c9abc11576c42094
       - type: shell
         commands:
+          - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")' CMakeLists.txt
           - sed -i 's|ccp4-python|python|' bin/acedrg
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
