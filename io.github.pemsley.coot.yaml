@@ -83,7 +83,7 @@ modules:
           --no-deps
           --no-index
           --no-build-isolation
-          --find-links=file://${PWD}
+          --find-links=file\://${PWD}
           --prefix=${FLATPAK_DEST} servalcat
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
