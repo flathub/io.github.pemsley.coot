@@ -82,10 +82,11 @@ modules:
           --exists-action=i
           --no-deps
           --no-index
-          --no-build-isolation
-          --find-links=file\://${PWD}
-          --prefix=${FLATPAK_DEST} servalcat
+          --find-links="file://${PWD}"
+          --prefix=${FLATPAK_DEST}
+          "servalcat"
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
+          --no-build-isolation
     sources:
       - type: archive
         url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
