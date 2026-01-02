@@ -54,6 +54,9 @@ modules:
           versions:
             <: 0.3.30    # Refer to https://github.com/OpenMathLib/OpenBLAS/issues/5324
 
+  # gemmi, nanobind, numpy, servalcat, omegaconf, packaging, pandas, scipy
+  - deps/pypi-dependencies.json
+
   - name: gemmi
     buildsystem: cmake-ninja
     config-opts:
@@ -70,9 +73,6 @@ modules:
           project-id: 22936
           stable-only: false
           tag-pattern: https://github.com/project-gemmi/gemmi/archive/refs/tags/v$version.tar.gz
-
-  # nanobind, numpy, servalcat, omegaconf, packaging, pandas, scipy
-  - deps/pypi-dependencies.json
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
