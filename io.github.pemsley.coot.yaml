@@ -14,7 +14,7 @@ finish-args:
   - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
   - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
-  - --env=CLIBD_MON=/app/share/acedrg/tables  # For acedrg
+  - --env=CLIBD_MON=/app/share/acedrg/tables  # For acedrg; TODO: replace with `/app/share/coot/lib/data/monomers` in the future
   - --env=LIBMOL_ROOT=/app  # For acedrg
   - --env=CCP4=/app  # For acedrg
   - --env=CBIN=/app/bin  # For acedrg
