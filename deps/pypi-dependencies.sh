@@ -53,7 +53,6 @@ pushd "$REPO_ROOT" >/dev/null
     --runtime='org.gnome.Sdk//49' \
     --requirements-file="${REPO_ROOT}/deps/requirements.txt" \
     --output="${REPO_ROOT}/deps/pypi-dependencies" \
-    --checker-data
 popd >/dev/null
 
-echo "pypi dependencies generation complete"
+echo "pypi dependencies generation complete!"

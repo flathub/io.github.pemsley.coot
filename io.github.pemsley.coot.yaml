@@ -14,8 +14,10 @@ finish-args:
   - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
   - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
-  - --env=LIBMOL_ROOT=/app
-  - --env=CLIBD_MON=/app/share/acedrg/tables
+  - --env=CLIBD_MON=/app/share/acedrg/tables  # For acedrg
+  - --env=LIBMOL_ROOT=/app  # For acedrg
+  - --env=CCP4=/app  # For acedrg
+  - --env=CBIN=/app/bin  # For acedrg
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -70,8 +72,8 @@ modules:
       cxxflags: -fPIC -O3
     sources:
       - type: archive
-        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
-        sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
+        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.4.tar.gz
+        sha256: 58ed9023e0f75033ebec1da630461bc6e1af661f29f0c41deed66c20315ebe2a
 
   - name: servalcat
     buildsystem: simple
@@ -79,7 +81,6 @@ modules:
       - |
         pip3 install . \
           --verbose \
-          --exists-action=i \
           --no-deps \
           --no-index \
           --no-build-isolation \
@@ -87,8 +88,8 @@ modules:
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
-        sha256: 240ebe686a05b753f40c73276ea02abf6376b924d3b693a76eb2675e23a06634
+        url: https://files.pythonhosted.org/packages/e5/3f/73582d0922ee252f08fa17535282d22e864e0b9185c0b097e56e50c838b3/servalcat-0.4.128.tar.gz
+        sha256: c489767ff7ffbb1a856b7341bdcdb6ccd246b92c2f296436933f2d291360b29a
         x-checker-data:
           type: pypi
           name: servalcat
