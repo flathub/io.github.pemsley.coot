@@ -114,7 +114,7 @@ modules:
       - type: shell
         commands:
           - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")' CMakeLists.txt
-          - sed -i 's|ccp4-python|python|' bin/acedrg
+          - grep -rlIZ --exclude-dir=.git 'ccp4-python' . | xargs -0 sed -i 's/ccp4-python/python/g'
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
