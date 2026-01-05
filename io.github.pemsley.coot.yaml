@@ -14,8 +14,10 @@ finish-args:
   - --env=GDK_DEBUG=gl-prefer-gl  # Refer to https://docs.gtk.org/gtk4/running.html#gdk_debug
   - --env=OPENBLAS_MAIN_FREE=1  # Refer to https://github.com/OpenMathLib/OpenBLAS/blob/develop/docs/runtime_variables.md
   - --env=COOT_PREFIX=/app
-  - --env=LIBMOL_ROOT=/app
-  - --env=CLIBD_MON=/app/share/acedrg/tables
+  - --env=CLIBD_MON=/app/share/coot/lib/data/monomers  # For acedrg
+  - --env=LIBMOL_ROOT=/app  # For acedrg
+  - --env=CCP4=/app  # For acedrg
+  - --env=CBIN=/app/bin  # For acedrg
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -59,6 +61,24 @@ modules:
   # nanobind, numpy, omegaconf, packaging, pandas, scipy
   - deps/pypi-dependencies.json
 
+  - name: eigen
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    sources:
+      - type: archive
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.gz
+        sha256: b93c667d1b69265cdb4d9f30ec21f8facbbe8b307cf34c0b9942834c6d4fdbe2
+        x-checker-data:
+          type: anitya
+          project-id: 13751
+          stable-only: true
+          url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
+          versions:
+            <: 4.0.0a0
+
   # Do not update automatically to match the gemmi version used by servalcat
   - name: gemmi
     buildsystem: cmake-ninja
@@ -70,8 +90,8 @@ modules:
       cxxflags: -fPIC -O3
     sources:
       - type: archive
-        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.3.tar.gz
-        sha256: ed5e1d0665f27d623d877fa36f6c99a5de21310cc8715337ff9f6b545bd2e9d3
+        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.4.tar.gz
+        sha256: 58ed9023e0f75033ebec1da630461bc6e1af661f29f0c41deed66c20315ebe2a
 
   - name: servalcat
     buildsystem: simple
@@ -79,7 +99,6 @@ modules:
       - |
         pip3 install . \
           --verbose \
-          --exists-action=i \
           --no-deps \
           --no-index \
           --no-build-isolation \
@@ -87,11 +106,14 @@ modules:
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/5b/79/ae80bace6df7528467a2050b94ca6745fe6aa41c98129fd09d7b0d2f9623/servalcat-0.4.126.tar.gz
-        sha256: 240ebe686a05b753f40c73276ea02abf6376b924d3b693a76eb2675e23a06634
+        url: https://files.pythonhosted.org/packages/e5/3f/73582d0922ee252f08fa17535282d22e864e0b9185c0b097e56e50c838b3/servalcat-0.4.128.tar.gz
+        sha256: c489767ff7ffbb1a856b7341bdcdb6ccd246b92c2f296436933f2d291360b29a
         x-checker-data:
           type: pypi
           name: servalcat
+      - type: shell
+        commands:
+          - rm -rf eigen/  # Use the eigen built above instead of vendorized one
 
   - name: acedrg
     buildsystem: cmake-ninja
@@ -113,7 +135,7 @@ modules:
       - type: shell
         commands:
           - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")' CMakeLists.txt
-          - sed -i 's|ccp4-python|python|' bin/acedrg
+          - grep -rlIZ --exclude-dir=.git 'ccp4-python' . | xargs -0 sed -i 's/ccp4-python/python/g'
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
   - name: fftw2
@@ -518,24 +540,6 @@ modules:
           project-id: 7680
           stable-only: true
           url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
-
-  - name: eigen
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-    sources:
-      - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.gz
-        sha256: b93c667d1b69265cdb4d9f30ec21f8facbbe8b307cf34c0b9942834c6d4fdbe2
-        x-checker-data:
-          type: anitya
-          project-id: 13751
-          stable-only: true
-          url-template: https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.gz
-          versions:
-            <: 4.0.0a0
 
   - name: rdkit
     buildsystem: cmake-ninja
