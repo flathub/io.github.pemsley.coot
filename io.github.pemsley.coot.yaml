@@ -106,8 +106,8 @@ modules:
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/e5/3f/73582d0922ee252f08fa17535282d22e864e0b9185c0b097e56e50c838b3/servalcat-0.4.128.tar.gz
-        sha256: c489767ff7ffbb1a856b7341bdcdb6ccd246b92c2f296436933f2d291360b29a
+        url: https://files.pythonhosted.org/packages/7c/a9/f3eec5dcbd05385ff9941660c3d4894c643c1ee68d3d20f1fbb52d9c65ee/servalcat-0.4.131.tar.gz
+        sha256: d4300bfba939b0f3592c71b905c8d9cb398ed4bdc4069e4f1c3ac0c6bef06eb0
         x-checker-data:
           type: pypi
           name: servalcat
@@ -134,7 +134,8 @@ modules:
         commit: 8e54f9bdfb21403e4b0b0a12c9abc11576c42094
       - type: shell
         commands:
-          - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")' CMakeLists.txt
+          - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")'
+            CMakeLists.txt
           - grep -rlIZ --exclude-dir=.git 'ccp4-python' . | xargs -0 sed -i 's/ccp4-python/python/g'
 
   # Note: FFTW3 is NOT compatible with Clipper; use FFTW2 for Coot
@@ -352,8 +353,8 @@ modules:
       cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-2.2.0.tar.xz
-        sha256: 54c0abbbeb4190bd1babb5d28574d2b20c2309343ec764cc7ca611e527ee4a42
+        url: https://www.prevanders.net/libdwarf-2.3.0.tar.xz
+        sha256: a153e8101828a478f88d18341267b59c19a3fc794bea47388347ce994ba90c17
         x-checker-data:
           type: anitya
           project-id: 1597
@@ -412,8 +413,8 @@ modules:
       cflags: -fPIC -O2 -DNDEBUG
     sources:
       - type: archive
-        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.10.tar.gz
-        sha256: 5858a417ab3eaac2add0daf79cd29ddf248c9f648e6c08092b775dcbfcbe1edb
+        url: https://github.com/ivmai/bdwgc/archive/refs/tags/v8.2.12.tar.gz
+        sha256: d09001f45dabf1c29a5df3e63020a4bab5ad4aad69137bb07100c717e2ecba0b
         x-checker-data:
           type: anitya
           project-id: 17108
@@ -533,8 +534,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.12.0.tar.gz
-        sha256: e077079f214afc99fee940d91c14cf1a8c1d378212226bb9f50efff75fe07b23
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.13.0.tar.gz
+        sha256: 650795f6501af514f806e78c554729847b98db6935e69076f36bb03ed2e985ef
         x-checker-data:
           type: anitya
           project-id: 7680
@@ -559,8 +560,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2025_09_4
-        commit: 9b69dd2a400b43a2ac5a311fef786628c257f4b1
+        tag: Release_2025_09_6
+        commit: 0ece02e9254ef2d5eeade2bd40eb13546522dbd3
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
