@@ -320,7 +320,7 @@ modules:
     buildsystem: simple
     build-commands:
       - ./bootstrap.sh --without-icu --with-python=python3.13 --with-python-root=/usr
-        --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
+        --with-libraries=python,regex,thread,serialization,iostreams,program_options
         --prefix=/app --libdir=/app/lib
       - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
