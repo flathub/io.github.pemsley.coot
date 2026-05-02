@@ -1,0 +1,114 @@
+name: Bump upstream coot commit
+
+on:
+  schedule:
+    # Once a week (Sunday 05:00 UTC) per Flathub recommendation.
+    - cron: '0 5 * * 0'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    if: github.repository_owner == 'flathub'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [beta, alpha]
+    steps:
+      - name: Checkout ${{ matrix.target }}
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ matrix.target }}
+          fetch-depth: 0
+
+      - name: Resolve upstream HEAD of pemsley/coot
+        id: up
+        run: |
+          UP_SHA=$(git ls-remote https://github.com/pemsley/coot.git HEAD | awk '{print $1}')
+          if [ -z "$UP_SHA" ]; then
+            echo "Failed to resolve upstream HEAD" >&2
+            exit 1
+          fi
+          echo "sha=${UP_SHA}" >> "$GITHUB_OUTPUT"
+          echo "short=${UP_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Read currently pinned commit for the coot module
+        id: cur
+        run: |
+          CUR_SHA=$(python3 - <<'PY'
+          import re
+          text = open("io.github.pemsley.coot.yaml").read()
+          m = re.search(
+              r"- name:\s*coot\b.*?sources:\s*(?:.*?\n)*?\s*commit:\s*([0-9a-f]{40})",
+              text, re.S)
+          print(m.group(1) if m else "")
+          PY
+          )
+          if [ -z "$CUR_SHA" ]; then
+            echo "Could not find pinned commit for the coot module" >&2
+            exit 1
+          fi
+          echo "sha=${CUR_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Stop if already up-to-date
+        id: check
+        run: |
+          if [ "${{ steps.up.outputs.sha }}" = "${{ steps.cur.outputs.sha }}" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new upstream commit on pemsley/coot."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rewrite commit field in manifest
+        if: steps.check.outputs.changed == 'true'
+        env:
+          NEW_SHA: ${{ steps.up.outputs.sha }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          path = "io.github.pemsley.coot.yaml"
+          new = os.environ["NEW_SHA"]
+          src = open(path).read()
+          pattern = re.compile(
+              r"(- name:\s*coot\b.*?sources:\s*(?:.*?\n)*?\s*commit:\s*)[0-9a-f]{40}",
+              re.S)
+          src2, n = pattern.subn(r"\g<1>" + new, src, count=1)
+          assert n == 1, "coot module commit: not found"
+          open(path, "w").write(src2)
+          PY
+
+      - name: Create Pull Request to ${{ matrix.target }}
+        if: steps.check.outputs.changed == 'true'
+        id: create-pr
+        # peter-evans/create-pull-request v7.0.8
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
+        with:
+          base: ${{ matrix.target }}
+          branch: bot/upstream-coot-${{ matrix.target }}
+          commit-message: |
+            coot: bump to ${{ steps.up.outputs.short }}
+          title: "coot: bump upstream to ${{ steps.up.outputs.short }} (${{ matrix.target }})"
+          body: |
+            Upstream https://github.com/pemsley/coot HEAD has new commits.
+            This PR updates the `commit:` field of the `coot` module in
+            `io.github.pemsley.coot.yaml`.
+
+            - old: `${{ steps.cur.outputs.sha }}`
+            - new: `${{ steps.up.outputs.sha }}`
+
+            Auto-generated. Target branch: `${{ matrix.target }}`.
+          labels: |
+            automated
+            upstream-bump
+          add-paths: |
+            io.github.pemsley.coot.yaml
+          delete-branch: true
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
