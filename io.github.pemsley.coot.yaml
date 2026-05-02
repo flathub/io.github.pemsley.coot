@@ -320,7 +320,7 @@ modules:
     buildsystem: simple
     build-commands:
       - ./bootstrap.sh --without-icu --with-python=python3.13 --with-python-root=/usr
-        --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
+        --with-libraries=python,regex,thread,serialization,iostreams,program_options
         --prefix=/app --libdir=/app/lib
       - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
@@ -331,8 +331,8 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-b2-nodocs.tar.xz
-        sha256: 9e6bee9ab529fb2b0733049692d57d10a72202af085e553539a05b4204211a6f
+        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
+        sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
         x-checker-data:
           type: anitya
           project-id: 6845
@@ -560,8 +560,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_03_1
-        commit: 351f8f378f8ad6bbd517980c38896e66bf907af8
+        tag: Release_2026_03_2
+        commit: 42fe8c952589bb750e27ea7f259a50b36576bfa5
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -656,7 +656,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 9496004f4f6291e2500d7d670a38b01e88fe472f
+        commit: b7d3469f9a3ab7fc3a0ce924ef8a42b81a6cdbac
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
