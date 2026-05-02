@@ -97,7 +97,10 @@ jobs:
               r"(- name:\s*coot\b.*?sources:\s*(?:.*?\n)*?\s*commit:\s*)[0-9a-f]{40}",
               re.S)
           src2, n = pattern.subn(r"\g<1>" + new, src, count=1)
-          assert n == 1, "coot module commit: not found"
+          if n != 1:
+             raise SystemExit(
+                 f"Expected to rewrite exactly one coot module commit in {path}, but rewrote {n}."
+             )
           open(path, "w").write(src2)
           PY
 
