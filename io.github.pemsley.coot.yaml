@@ -561,7 +561,7 @@ modules:
       cxxflags: -fPIC -O3
     post-install:
       - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
-      - cp -a External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
