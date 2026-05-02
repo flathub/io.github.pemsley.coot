@@ -2,8 +2,8 @@ name: Bump upstream coot commit
 
 on:
   schedule:
-    # Every 6 hours, at :17 to avoid the on-the-hour Actions congestion.
-    - cron: '17 */6 * * *'
+    # Every 1 hour, at :17 to avoid the on-the-hour Actions congestion.
+    - cron: '17 */1 * * *'
   workflow_dispatch: {}
 
 permissions:
