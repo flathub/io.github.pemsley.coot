@@ -551,12 +551,16 @@ modules:
       - -DPython_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
+      - -DRDK_BUILD_COORDGEN_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
       - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
     build-options:
       cxxflags: -fPIC -O3
+    post-install:
+      - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
+      - cp -a External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
