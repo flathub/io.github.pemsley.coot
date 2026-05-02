@@ -27,34 +27,52 @@ jobs:
           ref: ${{ matrix.target }}
           fetch-depth: 0
 
-      - name: Resolve upstream HEAD of pemsley/coot
-        id: up
-        run: |
-          UP_SHA=$(git ls-remote https://github.com/pemsley/coot.git HEAD | awk '{print $1}')
-          if [ -z "$UP_SHA" ]; then
-            echo "Failed to resolve upstream HEAD" >&2
-            exit 1
-          fi
-          echo "sha=${UP_SHA}" >> "$GITHUB_OUTPUT"
-          echo "short=${UP_SHA::7}" >> "$GITHUB_OUTPUT"
-
-      - name: Read currently pinned commit for the coot module
+      - name: Read currently pinned ref for the coot module
         id: cur
         run: |
-          CUR_SHA=$(python3 - <<'PY'
+          mapfile -t CUR_DATA < <(python3 - <<'PY'
           import re
           text = open("io.github.pemsley.coot.yaml").read()
-          m = re.search(
-              r"- name:\s*coot\b.*?sources:\s*(?:.*?\n)*?\s*commit:\s*([0-9a-f]{40})",
-              text, re.S)
-          print(m.group(1) if m else "")
+          module = re.search(r"- name:\s*coot\b(.*?)(?=\n\s*-\s*name:|\Z)", text, re.S)
+          if not module:
+              print("")
+              print("")
+          else:
+              block = module.group(1)
+              tag = re.search(r"^\s*tag:\s*(\S+)", block, re.M)
+              commit = re.search(r"^\s*commit:\s*([0-9a-f]{40})", block, re.M)
+              print(tag.group(1) if tag else "")
+              print(commit.group(1) if commit else "")
           PY
           )
+          CUR_TAG="${CUR_DATA[0]}"
+          CUR_SHA="${CUR_DATA[1]}"
           if [ -z "$CUR_SHA" ]; then
             echo "Could not find pinned commit for the coot module" >&2
             exit 1
           fi
+          echo "tag=${CUR_TAG}" >> "$GITHUB_OUTPUT"
           echo "sha=${CUR_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve upstream ref of pemsley/coot
+        id: up
+        run: |
+          if [ -n "${{ steps.cur.outputs.tag }}" ]; then
+            UP_REF="refs/tags/${{ steps.cur.outputs.tag }}"
+            UP_SHA=$(git ls-remote https://github.com/pemsley/coot.git "${UP_REF}^{}" "${UP_REF}" | awk 'NR==1 {print $1}')
+            if [ -z "$UP_SHA" ]; then
+              echo "Failed to resolve upstream tag ${{ steps.cur.outputs.tag }}" >&2
+              exit 1
+            fi
+          else
+            UP_SHA=$(git ls-remote https://github.com/pemsley/coot.git HEAD | awk '{print $1}')
+            if [ -z "$UP_SHA" ]; then
+              echo "Failed to resolve upstream HEAD" >&2
+              exit 1
+            fi
+          fi
+          echo "sha=${UP_SHA}" >> "$GITHUB_OUTPUT"
+          echo "short=${UP_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Stop if already up-to-date
         id: check
