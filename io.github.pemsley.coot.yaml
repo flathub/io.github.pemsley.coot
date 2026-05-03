@@ -320,7 +320,7 @@ modules:
     buildsystem: simple
     build-commands:
       - ./bootstrap.sh --without-icu --with-python=python3.13 --with-python-root=/usr
-        --with-libraries=system,python,regex,thread,serialization,iostreams,program_options
+        --with-libraries=python,regex,thread,serialization,iostreams,program_options
         --prefix=/app --libdir=/app/lib
       - ./b2 install --prefix=/app --libdir=/app/lib linkflags=-L/usr/lib python=3.13
         -d2 -j$FLATPAK_BUILDER_N_JOBS threading=multi link=shared,static
@@ -331,8 +331,8 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-b2-nodocs.tar.xz
-        sha256: 9e6bee9ab529fb2b0733049692d57d10a72202af085e553539a05b4204211a6f
+        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
+        sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
         x-checker-data:
           type: anitya
           project-id: 6845
@@ -551,17 +551,23 @@ modules:
       - -DPython_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
+      - -DRDK_BUILD_COORDGEN_SUPPORT=ON
+      - -DRDK_BUILD_INCHI_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
       - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
     build-options:
       cxxflags: -fPIC -O3
+    post-install:
+      - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.hpp ${FLATPAK_DEST}/include/rdkit/coordgen/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_03_1
-        commit: 351f8f378f8ad6bbd517980c38896e66bf907af8
+        tag: Release_2026_03_2
+        commit: 42fe8c952589bb750e27ea7f259a50b36576bfa5
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -572,6 +578,10 @@ modules:
       - type: archive
         url: https://github.com/schrodinger/coordgenlibs/archive/refs/tags/v3.0.2.tar.gz
         sha256: f67697434f7fec03bca150a6d84ea0e8409f6ec49d5aab43badc5833098ff4e3
+        strip-components: 0
+      - type: archive
+        url: https://github.com/IUPAC-InChI/InChI/archive/refs/tags/v1.07.3.tar.gz
+        sha256: dffe216320fcbd4a230f425416039bdcb5691f930d9e18983d8b5bc18d8410a6
         strip-components: 0
       - type: archive
         url: https://github.com/rareylab/RingDecomposerLib/archive/refs/tags/v1.1.3_rdkit.tar.gz
@@ -591,11 +601,13 @@ modules:
       - type: shell
         commands:
           - mkdir -p External/CoordGen/{maeparser,coordgen}
+          - mkdir -p External/INCHI-API/src
           - mkdir -p External/RingFamilies/RingDecomposerLib
           - mkdir -p External/pubchem_shape/pubchem-align3d
           - mkdir -p External/rapidjson-1.1.0
           - cp -r maeparser-1.3.1/* External/CoordGen/maeparser
           - cp -r coordgenlibs-3.0.2/* External/CoordGen/coordgen
+          - cp -r InChI-1.07.3/INCHI-1-SRC/* External/INCHI-API/src
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
@@ -656,7 +668,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 9496004f4f6291e2500d7d670a38b01e88fe472f
+        commit: b7d3469f9a3ab7fc3a0ce924ef8a42b81a6cdbac
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
