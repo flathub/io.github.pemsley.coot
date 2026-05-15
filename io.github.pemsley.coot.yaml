@@ -534,13 +534,16 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.0.tar.gz
-        sha256: 9650c55e497759cc39b977e45524bc8acb15256061c112080916ab6cb0b1ea66
-        x-checker-data:
-          type: anitya
-          project-id: 7680
-          stable-only: true
-          url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
+        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
+
+  - name: eigen
+    buildsystem: cmake-ninja
+    builddir: true
+    sources:
+      - type: archive
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.gz
+        sha256: 7985975b787340124786f092b3a07d594b2e9cd53bbfe5f3d9b1daee7d55f56f
 
   - name: rdkit
     buildsystem: cmake-ninja
@@ -551,12 +554,11 @@ modules:
       - -DPython_EXECUTABLE=/usr/bin/python3
       - -DPYTHON_INCLUDE_DIR=/usr/include/python3.13
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
+      - -DRDK_BUILD_COORDGEN_SUPPORT=ON
+      - -DRDK_BUILD_INCHI_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
-      - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
-    build-options:
-      cxxflags: -fPIC -O3
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
@@ -572,6 +574,10 @@ modules:
       - type: archive
         url: https://github.com/schrodinger/coordgenlibs/archive/refs/tags/v3.0.2.tar.gz
         sha256: f67697434f7fec03bca150a6d84ea0e8409f6ec49d5aab43badc5833098ff4e3
+        strip-components: 0
+      - type: archive
+        url: https://github.com/IUPAC-InChI/InChI/archive/refs/tags/v1.07.3.tar.gz
+        sha256: dffe216320fcbd4a230f425416039bdcb5691f930d9e18983d8b5bc18d8410a6
         strip-components: 0
       - type: archive
         url: https://github.com/rareylab/RingDecomposerLib/archive/refs/tags/v1.1.3_rdkit.tar.gz
@@ -591,11 +597,13 @@ modules:
       - type: shell
         commands:
           - mkdir -p External/CoordGen/{maeparser,coordgen}
+          - mkdir -p External/INCHI-API/src
           - mkdir -p External/RingFamilies/RingDecomposerLib
           - mkdir -p External/pubchem_shape/pubchem-align3d
           - mkdir -p External/rapidjson-1.1.0
           - cp -r maeparser-1.3.1/* External/CoordGen/maeparser
           - cp -r coordgenlibs-3.0.2/* External/CoordGen/coordgen
+          - cp -r InChI-1.07.3/INCHI-1-SRC/* External/INCHI-API/src
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
@@ -661,3 +669,4 @@ modules:
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
+
