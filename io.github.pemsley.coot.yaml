@@ -534,8 +534,13 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
-        sha256: c991b247a1a0d7bb9c39aa35faf0fe9e19764213f28ffba3109388e62ee0269c
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.0.tar.gz
+        sha256: 9650c55e497759cc39b977e45524bc8acb15256061c112080916ab6cb0b1ea66
+        x-checker-data:
+          type: anitya
+          project-id: 7680
+          stable-only: true
+          url-template: https://github.com/catchorg/Catch2/archive/refs/tags/v$version.tar.gz
 
   - name: eigen
     buildsystem: cmake-ninja
