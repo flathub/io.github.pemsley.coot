@@ -556,6 +556,12 @@ modules:
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
+    build-options:
+      cxxflags: -fPIC -O3
+    post-install:
+      - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.hpp ${FLATPAK_DEST}/include/rdkit/coordgen/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
