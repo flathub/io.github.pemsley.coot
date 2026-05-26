@@ -2,7 +2,6 @@ name: Bump upstream coot commit
 
 on:
   schedule:
-    # Every 1 hour, at :17 to avoid the on-the-hour Actions congestion.
     - cron: '17 */1 * * *'
   workflow_dispatch: {}
 
@@ -15,16 +14,11 @@ jobs:
     if: github.repository_owner == 'flathub'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [beta, alpha]
     steps:
-      - name: Checkout ${{ matrix.target }}
-        # actions/checkout v4.2.2
+      - name: Checkout beta
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ${{ matrix.target }}
+          ref: beta
 
       - name: Read currently pinned ref for the coot module
         id: cur
@@ -104,17 +98,16 @@ jobs:
           open(path, "w").write(src2)
           PY
 
-      - name: Create Pull Request to ${{ matrix.target }}
+      - name: Create Pull Request to beta
         if: steps.check.outputs.changed == 'true'
         id: create-pr
-        # peter-evans/create-pull-request v7.0.8
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
         with:
-          base: ${{ matrix.target }}
-          branch: bot/upstream-coot-${{ matrix.target }}
+          base: beta
+          branch: bot/upstream-coot-beta
           commit-message: |
             coot: bump to ${{ steps.up.outputs.short }}
-          title: "coot: bump upstream to ${{ steps.up.outputs.short }} (${{ matrix.target }})"
+          title: "coot: bump upstream to ${{ steps.up.outputs.short }} (beta)"
           body: |
             Upstream https://github.com/pemsley/coot HEAD has new commits.
             This PR updates the `commit:` field of the `coot` module in
@@ -123,7 +116,7 @@ jobs:
             - old: `${{ steps.cur.outputs.sha }}`
             - new: `${{ steps.up.outputs.sha }}`
 
-            Auto-generated. Target branch: `${{ matrix.target }}`.
+            Auto-generated. Target branch: `beta`.
           labels: |
             automated
             upstream-bump
@@ -132,3 +125,4 @@ jobs:
           delete-branch: true
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+

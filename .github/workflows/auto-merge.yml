@@ -1,0 +1,63 @@
+name: Auto-merge bot bump PRs
+
+on:
+  status: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    if: |
+      github.event.state == 'success' &&
+      startsWith(github.event.context, 'builds/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find matching open PR
+        id: find-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_SHA: ${{ github.event.sha }}
+        run: |
+          PR_NUMBER=$(gh pr list \
+            --repo "${{ github.repository }}" \
+            --head "bot/upstream-coot-beta" \
+            --base "beta" \
+            --state open \
+            --json number,headRefOid \
+            --jq --arg sha "$COMMIT_SHA" \
+            '.[] | select(.headRefOid == $sha) | .number')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No matching PR, skipping."
+            exit 0
+          fi
+          echo "number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: Check all statuses on PR are successful
+        if: steps.find-pr.outputs.number != ''
+        id: checks
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ROLLUP=$(gh pr view "${{ steps.find-pr.outputs.number }}" \
+            --repo "${{ github.repository }}" \
+            --json statusCheckRollup \
+            --jq '.statusCheckRollup')
+          NOT_OK=$(echo "$ROLLUP" | \
+            jq '[.[] | select(.conclusion != "SUCCESS" and .state != "SUCCESS")] | length')
+          if [ "$NOT_OK" -gt 0 ]; then
+            echo "Checks not all passing yet, skipping."
+            exit 0
+          fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Merge PR
+        if: steps.checks.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "${{ steps.find-pr.outputs.number }}" \
+            --repo "${{ github.repository }}" \
+            --squash \
+            --delete-branch
