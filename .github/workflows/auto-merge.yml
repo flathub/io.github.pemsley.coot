@@ -25,9 +25,10 @@ jobs:
             --head "bot/upstream-coot-beta" \
             --base "beta" \
             --state open \
-            --json number,headRefOid \
-            --jq --arg sha "$COMMIT_SHA" \
-            '.[] | select(.headRefOid == $sha) | .number')
+            --json number,headRefOid | \
+            jq --arg sha "$COMMIT_SHA" -r \
+            '.[] | select(.headRefOid == $sha) | .number' | \
+            head -n1)
           if [ -z "$PR_NUMBER" ]; then
             echo "No matching PR, skipping."
             exit 0
@@ -45,7 +46,7 @@ jobs:
             --json statusCheckRollup \
             --jq '.statusCheckRollup')
           NOT_OK=$(echo "$ROLLUP" | \
-            jq '[.[] | select(.conclusion != "SUCCESS" and .state != "SUCCESS")] | length')
+            jq '(. // []) | [.[] | select((.conclusion // "") != "SUCCESS" and (.state // "") != "SUCCESS")] | length')
           if [ "$NOT_OK" -gt 0 ]; then
             echo "Checks not all passing yet, skipping."
             exit 0
