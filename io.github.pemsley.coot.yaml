@@ -668,7 +668,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 1a887960fd8b3ccf2b077016e95b35abff12ef5a
+        commit: b9681a7f7f1e4275e8d1c5f06fdbe2ac61402ec4
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
