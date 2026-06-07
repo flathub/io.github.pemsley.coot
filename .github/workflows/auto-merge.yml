@@ -22,12 +22,16 @@ jobs:
         run: |
           PR_NUMBER=$(gh pr list \
             --repo "${{ github.repository }}" \
-            --head "bot/upstream-coot-beta" \
-            --base "beta" \
             --state open \
-            --json number,headRefOid | \
-            jq --arg sha "$COMMIT_SHA" -r \
-            '.[] | select(.headRefOid == $sha) | .number' | \
+            --limit 100 \
+            --json number,headRefOid,author | \
+            jq --arg sha "$COMMIT_SHA" -r '
+              .[] | select(
+                .headRefOid == $sha and
+                (.author.login == "github-actions[bot]" or
+                 .author.login == "flathubbot")
+              ) | .number
+            ' | \
             head -n1)
           if [ -z "$PR_NUMBER" ]; then
             echo "No matching PR, skipping."
