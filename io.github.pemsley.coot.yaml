@@ -553,10 +553,10 @@ modules:
       - -DRDK_BUILD_CAIRO_SUPPORT=ON
       - -DRDK_BUILD_COORDGEN_SUPPORT=ON
       - -DRDK_BUILD_INCHI_SUPPORT=ON
+      - -DRDK_BUILD_CHEMDRAW_SUPPORT=ON
       - -DRDK_INSTALL_INTREE=OFF
       - -DRDK_INSTALL_COMIC_FONTS=OFF
       - -DRDK_BUILD_MAEPARSER_SUPPORT=OFF
-      - -DRDK_BUILD_CHEMDRAW_SUPPORT=OFF
     build-options:
       cxxflags: -fPIC -O3
     post-install:
@@ -595,6 +595,10 @@ modules:
         url: https://github.com/Tencent/rapidjson/archive/858451e.tar.gz
         sha256: 765339356391422ad7f0258f8b746d8010da205762784a84980936e8b38e03ce
         strip-components: 0
+      - type: archive
+        url: https://github.com/Glysade/chemdraw/archive/refs/tags/v1.0.12.tar.gz
+        sha256: c2fed7000b592f279773c5a35b0d08dfe93709fa352ab28c90b520dffb974c2b
+        strip-components: 0
       - type: file
         url: https://raw.githubusercontent.com/aantron/better-enums/refs/tags/0.11.3/enum.h  # Single header-only library
         sha256: 43a55c487052cfe068ecf1e4496d52128161bfb82c06c343eea85f177f235e04
@@ -605,12 +609,14 @@ modules:
           - mkdir -p External/RingFamilies/RingDecomposerLib
           - mkdir -p External/pubchem_shape/pubchem-align3d
           - mkdir -p External/rapidjson-1.1.0
+          - mkdir -p External/ChemDraw
           - cp -r maeparser-1.3.1/* External/CoordGen/maeparser
           - cp -r coordgenlibs-3.0.2/* External/CoordGen/coordgen
           - cp -r InChI-1.07.3/INCHI-1-SRC/* External/INCHI-API/src
           - cp -r RingDecomposerLib-1.1.3_rdkit/* External/RingFamilies/RingDecomposerLib
           - cp -r pubchem-align3d-daefab3dd0c90ca56da9d3d5e375fe4d651e6be3/* External/pubchem_shape/pubchem-align3d
           - cp -r rapidjson-858451e5b7d1c56cf8f6d58f88cf958351837e53/* External/rapidjson-1.1.0
+          - cp -r chemdraw-1.0.12 External/ChemDraw/chemdraw
           - cp enum.h Code/RDGeneral  # Place it in the required location in advance
           - sed -i 's|FetchContent_MakeAvailable(better_enums)||' Code/RDGeneral/CMakeLists.txt  # Prevent downloading
 
