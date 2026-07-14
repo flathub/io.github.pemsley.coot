@@ -131,7 +131,11 @@ modules:
     sources:
       - type: git
         url: https://ccp4forge.rc-harwell.ac.uk/ccp4/acedrg.git
-        commit: 8e54f9bdfb21403e4b0b0a12c9abc11576c42094
+        tag: '331'
+        commit: a3af0ff82cb06c3a6da42fb76320c41a8a0dc5ff
+        x-checker-data:
+          type: git
+          tag-pattern: '^([0-9]+)$'
       - type: shell
         commands:
           - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")'
