@@ -106,8 +106,8 @@ modules:
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/7c/a9/f3eec5dcbd05385ff9941660c3d4894c643c1ee68d3d20f1fbb52d9c65ee/servalcat-0.4.131.tar.gz
-        sha256: d4300bfba939b0f3592c71b905c8d9cb398ed4bdc4069e4f1c3ac0c6bef06eb0
+        url: https://files.pythonhosted.org/packages/cd/81/6296c8e438209f49ef7209834a8b7215051b7f5cfaaf257e95d21d6d5605/servalcat-0.4.142.tar.gz
+        sha256: 37a0ecd8e880abf8fa1ab17584cee077023b29506612622abc21b73aebd5bdd8
         x-checker-data:
           type: pypi
           name: servalcat
@@ -353,8 +353,8 @@ modules:
       cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-2.3.1.tar.xz
-        sha256: 28cf9a5d27aceff5c1f906244a4fe7ae208e41d20a6d8fc7e091c633a40b6e97
+        url: https://www.prevanders.net/libdwarf-2.3.2.tar.xz
+        sha256: 7992e7b9019ebfabdda5773e86243517c48cf89fafed3209e853692bc9573efd
         x-checker-data:
           type: anitya
           project-id: 1597
@@ -534,8 +534,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.1.tar.gz
-        sha256: be23a52b85cf04cd9587612147a10b023d59ed9757fa1843cc99e615d6c0893c
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.2.tar.gz
+        sha256: acfae120892c2b67a74142d36d060c0caa96f1c3aaa8aabd96e19961163d0420
         x-checker-data:
           type: anitya
           project-id: 7680
@@ -566,8 +566,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_03_3
-        commit: e74e7b0a5a2fc4e7f77c04ec26a61d4b8edbf22f
+        tag: Release_2026_03_4
+        commit: 8afba32ec539dcb2369bc84549d802aca3f7eb39
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -625,8 +625,8 @@ modules:
       - -DENABLE_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/Unidata/netcdf-c/archive/v4.10.0.tar.gz
-        sha256: ce160f9c1483b32d1ba8b7633d7984510259e4e439c48a218b95a023dc02fd4c
+        url: https://github.com/Unidata/netcdf-c/archive/v4.10.1.tar.gz
+        sha256: 33c27231c478c3b35da7c7758fbdd02da1fe407abcb16ddfe195f69d164f930d
         x-checker-data:
           type: anitya
           project-id: 10354
