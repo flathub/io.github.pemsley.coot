@@ -306,13 +306,13 @@ modules:
       - make install
     sources:
       - type: archive
-        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar
-        sha256: 4f6999f8d446ed2d7ef32d4f7abaa1d63fa1fa78686e79cecafc06c5ae6b122d
+        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar.gz
+        sha256: 8aecd2a6a7f7c0ab9100f6e3affa865f24c55617b76f16a28c401e4dbc6563a4
         x-checker-data:
           type: html
           url: http://www.bmsc.washington.edu/raster3d/
           version-pattern: Raster3D_([\d\.-]+)\.tar
-          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar
+          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
       - type: patch
         path: patches/fix-raster3d-Makefile.template.patch
 
@@ -674,7 +674,9 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: c4f653af4c2f72bf8a33bab0b1b97e9ae346a670
+        commit: 84825a160afd00c255353e8b78804bb97737a53d
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
+      - type: patch
+        path: patches/fix-cod-type-to-full-type.patch
