@@ -674,9 +674,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/pemsley/coot.git
-        commit: 22d8afe226e027db7d4f26037f4f5da755219256
+        commit: 17398f9d5dd152c86b76d4c559ab2722f9ba42e0
         x-checker-data:
           type: git
           tag-pattern: ^Release-([0-9]+(?:\.[0-9]+)*)$
-      - type: patch
-        path: patches/fix-cod-type-to-full-type.patch
