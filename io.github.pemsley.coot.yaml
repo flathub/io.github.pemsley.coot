@@ -135,7 +135,7 @@ modules:
         commit: a3af0ff82cb06c3a6da42fb76320c41a8a0dc5ff
         x-checker-data:
           type: git
-          tag-pattern: '^([0-9]+)$'
+          tag-pattern: ^([0-9]+)$
       - type: shell
         commands:
           - sed -i '/find_package(Python/a set(Python_SITELIB "/app/lib/python3.13/site-packages")'
@@ -538,8 +538,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.2.tar.gz
-        sha256: acfae120892c2b67a74142d36d060c0caa96f1c3aaa8aabd96e19961163d0420
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.3.tar.gz
+        sha256: b0299ae552918220a7a6e21e7de5b714777f4e8c883fb70c4bb23fe01df8c6e3
         x-checker-data:
           type: anitya
           project-id: 7680
