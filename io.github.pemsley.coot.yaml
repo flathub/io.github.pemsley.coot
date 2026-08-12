@@ -667,8 +667,8 @@ modules:
     builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DFASTFLOAT_BUILD_TESTS=OFF
-      - -DFASTFLOAT_BUILD_BENCHMARKS=OFF
+      - -DFASTFLOAT_TEST=OFF
+      - -DFASTFLOAT_BENCHMARKS=OFF
     sources:
       - type: archive
         url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.2.10.tar.gz
