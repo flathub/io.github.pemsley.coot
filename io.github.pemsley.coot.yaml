@@ -695,8 +695,8 @@ modules:
       - -Dsixel=true
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.82.4/vte-0.82.4.tar.gz
-        sha256: 005e0f48142c5f879dfa24105bc7f8c5030b2cf5d1b66831b3af29293bfb093b
+        url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.84.1/vte-0.84.1.tar.gz
+        sha256: 9f73468982a339cd1eb942beb7d348a5564c9ed48473ad1690c791f8474916ec
         x-checker-data:
           type: anitya
           project-id: 10895
