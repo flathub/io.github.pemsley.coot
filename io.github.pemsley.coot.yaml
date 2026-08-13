@@ -686,7 +686,7 @@ modules:
       - -Dgtk4=true
       - -Ddocs=false
       - -Dglade=false
-      - -Dgir=false
+      - -Dgir=true
       - -Dvapi=false
       - -Dfribidi=true
       - -Dgnutls=true
