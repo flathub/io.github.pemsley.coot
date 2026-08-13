@@ -662,7 +662,7 @@ modules:
           stable-only: true
           url-template: https://github.com/simdutf/simdutf/archive/refs/tags/v$version.tar.gz
 
-  - name: fast-float
+  - name: fast_float
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
@@ -689,8 +689,9 @@ modules:
       - -Dgir=false
       - -Dvapi=false
       - -Dfribidi=true
+      - -Dgnutls=true
       - -Dicu=true
-      - -Dsixel=true
+      - -D_systemd=true
     sources:
       - type: archive
         url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.84.1/vte-0.84.1.tar.gz
