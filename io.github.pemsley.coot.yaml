@@ -689,9 +689,7 @@ modules:
       - -Dgir=false
       - -Dvapi=false
       - -Dfribidi=true
-      - -Dgnutls=true
       - -Dicu=true
-      - -Dsystemd=true
       - -Dsixel=true
     sources:
       - type: archive
