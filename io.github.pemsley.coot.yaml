@@ -643,6 +643,64 @@ modules:
           stable-only: true
           url-template: https://github.com/Unidata/netcdf-c/archive/v$version.tar.gz
 
+  - name: simdutf
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DSIMDUTF_TESTS=OFF
+      - -DSIMDUTF_BENCHMARKS=OFF
+      - -DSIMDUTF_TOOLS=OFF
+      - -DBUILD_SHARED_LIBS=ON
+    sources:
+      - type: archive
+        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.0.0.tar.gz
+        sha256: fd2ce975f29809a975a8da8843cfb3a7265af3f71be548f199d23cf65e101764
+        x-checker-data:
+          type: anitya
+          project-id: 378662
+          stable-only: true
+          url-template: https://github.com/simdutf/simdutf/archive/refs/tags/v$version.tar.gz
+
+  - name: fast-float
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DFASTFLOAT_TEST=OFF
+      - -DFASTFLOAT_BENCHMARKS=OFF
+    sources:
+      - type: archive
+        url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.2.10.tar.gz
+        sha256: 76f958dd97b1cf4d8862d1f0986a47d4bdfa8845252bae15ef0f40de3b95961f
+        x-checker-data:
+          type: anitya
+          project-id: 214353
+          stable-only: true
+          url-template: https://github.com/fastfloat/fast_float/archive/refs/tags/v$version.tar.gz
+
+  - name: vte
+    buildsystem: meson
+    config-opts:
+      - -Dgtk3=false
+      - -Dgtk4=true
+      - -Ddocs=false
+      - -Dglade=false
+      - -Dgir=false
+      - -Dvapi=false
+      - -Dfribidi=true
+      - -Dicu=true
+      - -Dsixel=true
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.84.1/vte-0.84.1.tar.gz
+        sha256: 9f73468982a339cd1eb942beb7d348a5564c9ed48473ad1690c791f8474916ec
+        x-checker-data:
+          type: anitya
+          project-id: 10895
+          stable-only: true
+          url-template: https://gitlab.gnome.org/GNOME/vte/-/archive/$version/vte-$version.tar.gz
+
   - name: coot
     buildsystem: autotools
     config-opts:
@@ -659,6 +717,7 @@ modules:
       - --with-guile
       - --with-sound
       - --with-sqlite3
+      - --with-vte
       - --disable-dependency-tracking
       - --disable-silent-rules
       - --enable-shared
