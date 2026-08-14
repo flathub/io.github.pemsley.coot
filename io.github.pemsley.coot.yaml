@@ -310,8 +310,8 @@ modules:
       - make install
     sources:
       - type: archive
-        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar.gz
-        sha256: 8aecd2a6a7f7c0ab9100f6e3affa865f24c55617b76f16a28c401e4dbc6563a4
+        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-9.tar.gz
+        sha256: 063edf90f107a57268a69b0801f6b7ff3a358bd596d1d617656611431033fa3a
         x-checker-data:
           type: html
           url: http://www.bmsc.washington.edu/raster3d/
@@ -335,8 +335,8 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
-        sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
+        url: https://github.com/boostorg/boost/releases/download/boost-1.92.0/boost-1.92.0-b2-nodocs.tar.xz
+        sha256: ea7b982002cc9dfbe59b0b217b206f470dc75f3de0bb2973d844118934d82411
         x-checker-data:
           type: anitya
           project-id: 6845
