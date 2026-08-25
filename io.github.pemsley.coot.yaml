@@ -335,7 +335,7 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
+        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz 
         sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
         x-checker-data:
           type: anitya
@@ -538,8 +538,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.2.tar.gz
-        sha256: acfae120892c2b67a74142d36d060c0caa96f1c3aaa8aabd96e19961163d0420
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.16.0.tar.gz
+        sha256: 0957cae5821b17ce07f0833aaa52b5137643a8382203221f363a8303c109af34
         x-checker-data:
           type: anitya
           project-id: 7680
