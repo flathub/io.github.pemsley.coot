@@ -336,7 +336,7 @@ modules:
     sources:
       - type: archive
         url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz 
-         sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
+        sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
         x-checker-data:
           type: anitya
           project-id: 6845
