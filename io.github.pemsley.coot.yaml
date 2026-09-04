@@ -522,8 +522,8 @@ modules:
       - --disable-static
     sources:
       - type: archive
-        url: https://github.com/swig/swig/archive/refs/tags/v4.5.0.tar.gz
-        sha256: eb797b32194d5ed995f571f58839e2307a2e9b2d5cfa6ad1ec7b43f6663dc59a
+        url: https://github.com/swig/swig/archive/refs/tags/v4.5.1.tar.gz
+        sha256: dd219a0c8947afe63b818892304390427c2ee7f6edfa1a37853d4efd891982be
         x-checker-data:
           type: anitya
           project-id: 6131
