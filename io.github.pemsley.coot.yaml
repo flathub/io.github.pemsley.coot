@@ -654,8 +654,8 @@ modules:
       - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
-        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.1.1.tar.gz
-        sha256: ec707f17e5083999efbdaf8a9a08d35e71e955b35dbf4b8307d14a7d31e9697f
+        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.1.2.tar.gz
+        sha256: 0992cd1bcddee10424e49d6bc3ff8da02f9abc4c48033cbb1b0b41b62c727d33
         x-checker-data:
           type: anitya
           project-id: 378662
