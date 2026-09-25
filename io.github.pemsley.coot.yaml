@@ -357,8 +357,8 @@ modules:
       cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-2.3.2.tar.xz
-        sha256: 7992e7b9019ebfabdda5773e86243517c48cf89fafed3209e853692bc9573efd
+        url: https://www.prevanders.net/libdwarf-2.3.3.tar.xz
+        sha256: bde13d1c49be6f2467326a6e0b3919247471455d16eefc3c6be26c7d4baca36a
         x-checker-data:
           type: anitya
           project-id: 1597
