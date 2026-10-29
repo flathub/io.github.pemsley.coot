@@ -300,25 +300,25 @@ modules:
       - type: patch
         path: patches/gd.h.patch
 
-  - name: raster3d
-    buildsystem: simple
-    build-options:
-      cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
-    build-commands:
-      - make linux
-      - make all
-      - make install
-    sources:
-      - type: archive
-        url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar.gz
-        sha256: 8aecd2a6a7f7c0ab9100f6e3affa865f24c55617b76f16a28c401e4dbc6563a4
-        x-checker-data:
-          type: html
-          url: http://www.bmsc.washington.edu/raster3d/
-          version-pattern: Raster3D_([\d\.-]+)\.tar
-          url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
-      - type: patch
-        path: patches/fix-raster3d-Makefile.template.patch
+  # - name: raster3d
+  #   buildsystem: simple
+  #   build-options:
+  #     cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
+  #   build-commands:
+  #     - make linux
+  #     - make all
+  #     - make install
+  #   sources:
+  #     - type: archive
+  #       url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar.gz
+  #       sha256: 8aecd2a6a7f7c0ab9100f6e3affa865f24c55617b76f16a28c401e4dbc6563a4
+  #       x-checker-data:
+  #         type: html
+  #         url: http://www.bmsc.washington.edu/raster3d/
+  #         version-pattern: Raster3D_([\d\.-]+)\.tar
+  #         url-template: http://www.bmsc.washington.edu/raster3d/Raster3D_$version.tar.gz
+  #     - type: patch
+  #       path: patches/fix-raster3d-Makefile.template.patch
 
   - name: boost
     buildsystem: simple
