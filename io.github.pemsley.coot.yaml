@@ -90,8 +90,8 @@ modules:
       cxxflags: -fPIC -O3
     sources:
       - type: archive
-        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.4.tar.gz
-        sha256: 58ed9023e0f75033ebec1da630461bc6e1af661f29f0c41deed66c20315ebe2a
+        url: https://github.com/project-gemmi/gemmi/archive/refs/tags/v0.7.5.tar.gz
+        sha256: 9e2a8a51e62c69bf43f62aadf527ca4312860de8a36c12a8747d3e8ae556f0b3
 
   - name: servalcat
     buildsystem: simple
@@ -310,8 +310,8 @@ modules:
   #     - make install
   #   sources:
   #     - type: archive
-  #       url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-8.tar.gz
-  #       sha256: 8aecd2a6a7f7c0ab9100f6e3affa865f24c55617b76f16a28c401e4dbc6563a4
+  #       url: http://www.bmsc.washington.edu/raster3d/Raster3D_3.0-9.tar.gz
+  #       sha256: 063edf90f107a57268a69b0801f6b7ff3a358bd596d1d617656611431033fa3a
   #       x-checker-data:
   #         type: html
   #         url: http://www.bmsc.washington.edu/raster3d/
@@ -335,8 +335,8 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
-        sha256: 7334bb672b9c7aa135da88bcc3111a64a198be9a7d44eb5151d9248e7cfd43ef
+        url: https://github.com/boostorg/boost/releases/download/boost-1.92.0/boost-1.92.0-b2-nodocs.tar.xz
+        sha256: ea7b982002cc9dfbe59b0b217b206f470dc75f3de0bb2973d844118934d82411
         x-checker-data:
           type: anitya
           project-id: 6845
@@ -357,8 +357,8 @@ modules:
       cflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: https://www.prevanders.net/libdwarf-2.3.2.tar.xz
-        sha256: 7992e7b9019ebfabdda5773e86243517c48cf89fafed3209e853692bc9573efd
+        url: https://www.prevanders.net/libdwarf-2.3.3.tar.xz
+        sha256: bde13d1c49be6f2467326a6e0b3919247471455d16eefc3c6be26c7d4baca36a
         x-checker-data:
           type: anitya
           project-id: 1597
@@ -522,8 +522,8 @@ modules:
       - --disable-static
     sources:
       - type: archive
-        url: https://github.com/swig/swig/archive/refs/tags/v4.5.0.tar.gz
-        sha256: eb797b32194d5ed995f571f58839e2307a2e9b2d5cfa6ad1ec7b43f6663dc59a
+        url: https://github.com/swig/swig/archive/refs/tags/v4.5.1.tar.gz
+        sha256: dd219a0c8947afe63b818892304390427c2ee7f6edfa1a37853d4efd891982be
         x-checker-data:
           type: anitya
           project-id: 6131
@@ -538,8 +538,8 @@ modules:
       - -DCMAKE_CXX_STANDARD=17
     sources:
       - type: archive
-        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.15.3.tar.gz
-        sha256: b0299ae552918220a7a6e21e7de5b714777f4e8c883fb70c4bb23fe01df8c6e3
+        url: https://github.com/catchorg/Catch2/archive/refs/tags/v3.16.1.tar.gz
+        sha256: d16bd1b8b2364918bd472cb216394acb93bde6784890df0d91bccfb3f28d777d
         x-checker-data:
           type: anitya
           project-id: 7680
@@ -567,11 +567,12 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.hpp ${FLATPAK_DEST}/include/rdkit/coordgen/
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/Code/GraphMol/DistGeomHelpers/BoundsMatrixBuilderDetails.h ${FLATPAK_DEST}/include/rdkit/GraphMol/DistGeomHelpers/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_03_5
-        commit: de8add1e32ff6d3c4e4e406f64b703b662dff1d6
+        tag: Release_2026_09_1
+        commit: fece8caa860bdf6c9c82bdb9253f22a0cf87150c
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -654,8 +655,8 @@ modules:
       - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
-        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.0.0.tar.gz
-        sha256: fd2ce975f29809a975a8da8843cfb3a7265af3f71be548f199d23cf65e101764
+        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.3.0.tar.gz
+        sha256: f05b3549465f1bb3c5033a05395c372c0982ed1d166608185b3cc8c5c7e98071
         x-checker-data:
           type: anitya
           project-id: 378662
@@ -671,8 +672,8 @@ modules:
       - -DFASTFLOAT_BENCHMARKS=OFF
     sources:
       - type: archive
-        url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.2.10.tar.gz
-        sha256: 76f958dd97b1cf4d8862d1f0986a47d4bdfa8845252bae15ef0f40de3b95961f
+        url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.3.2.tar.gz
+        sha256: 71bb9e865b888df01351558db5a39586d13ea97ada162156b3a07784d8c1b26b
         x-checker-data:
           type: anitya
           project-id: 214353
