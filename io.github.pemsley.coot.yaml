@@ -106,8 +106,7 @@ modules:
           --config-settings="cmake.args=-Dnanobind_DIR=/app/lib/python3.13/site-packages/nanobind/cmake"
     sources:
       - type: archive
-        url: 
-          https://files.pythonhosted.org/packages/cd/81/6296c8e438209f49ef7209834a8b7215051b7f5cfaaf257e95d21d6d5605/servalcat-0.4.142.tar.gz
+        url: https://files.pythonhosted.org/packages/cd/81/6296c8e438209f49ef7209834a8b7215051b7f5cfaaf257e95d21d6d5605/servalcat-0.4.142.tar.gz
         sha256: 37a0ecd8e880abf8fa1ab17584cee077023b29506612622abc21b73aebd5bdd8
         x-checker-data:
           type: pypi
@@ -180,15 +179,13 @@ modules:
       cxxflags: -O2 -fPIC -fno-strict-aliasing -std=c++11 -DNDEBUG
     sources:
       - type: archive
-        url: 
-          https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-2.0.22.tar.gz
         sha256: a9646933ce9f34633e1ae4901f2383af0e5318d6490851328f5b6aa06195ab51
         x-checker-data:
           type: html
           url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
           version-pattern: mmdb2-([\d\.]+)\.tar\.gz
-          url-template: 
-            https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-$version.tar.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/mmdb2-$version.tar.gz
 
   - name: libccp4
     buildsystem: autotools
@@ -206,15 +203,13 @@ modules:
       cxxflags: -O2 -fPIC -fno-strict-aliasing -DNDEBUG
     sources:
       - type: archive
-        url: 
-          https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-8.0.0.tar.gz
         sha256: cb813ae86612a0866329deab7cee96eac573d81be5b240341d40f9ad5322ff2d
         x-checker-data:
           type: html
           url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
           version-pattern: libccp4-([\d\.]+)\.tar\.gz
-          url-template: 
-            https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/libccp4-$version.tar.gz
       - type: shell
         commands:
           # Workarounds for gcc 15
@@ -242,15 +237,13 @@ modules:
       cxxflags: -O2 -fno-strict-aliasing -Wno-narrowing -fPIC -std=c++11 -DNDEBUG
     sources:
       - type: archive
-        url: 
-          https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
+        url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-2.1.20180802.tar.gz
         sha256: 7c7774f224b59458e0faa104d209da906c129523fa737e81eb3b99ec772b81e0
         x-checker-data:
           type: html
           url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
           version-pattern: clipper-([\d\.]+)\.tar\.gz
-          url-template: 
-            https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-$version.tar.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/clipper-$version.tar.gz
       - type: patch
         path: patches/clipper-configure-2.patch
       - type: shell
@@ -278,8 +271,7 @@ modules:
           type: html
           url: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/
           version-pattern: ssm-([\d\.]+)\.tar\.gz
-          url-template: 
-            https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-$version.tar.gz
+          url-template: https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/dependencies/ssm-$version.tar.gz
 
   - name: libgd
     buildsystem: autotools
@@ -304,8 +296,7 @@ modules:
           type: anitya
           project-id: 880
           stable-only: true
-          url-template: 
-            https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.xz
+          url-template: https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.xz
       - type: patch
         path: patches/gd.h.patch
 
@@ -344,15 +335,13 @@ modules:
       - /share/boost
     sources:
       - type: archive
-        url: 
-          https://github.com/boostorg/boost/releases/download/boost-1.92.0/boost-1.92.0-b2-nodocs.tar.xz
+        url: https://github.com/boostorg/boost/releases/download/boost-1.92.0/boost-1.92.0-b2-nodocs.tar.xz
         sha256: ea7b982002cc9dfbe59b0b217b206f470dc75f3de0bb2973d844118934d82411
         x-checker-data:
           type: anitya
           project-id: 6845
           stable-only: true
-          url-template: 
-            https://github.com/boostorg/boost/releases/download/boost-$version/boost-$version-b2-nodocs.tar.xz
+          url-template: https://github.com/boostorg/boost/releases/download/boost-$version/boost-$version-b2-nodocs.tar.xz
 
   - name: libdwarf
     buildsystem: autotools
@@ -520,8 +509,7 @@ modules:
       cflags: -O2 -fPIC -DNDEBUG
     sources:
       - type: archive
-        url: 
-          https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
+        url: https://ftp.gnu.org/gnu/guile-gnome/guile-gnome-platform/guile-gnome-platform-2.16.5.tar.gz
         sha256: 298d8c4f9b567bfe87beda18ed58d047c2e01b88c80895129de5466b921ccebe
 
   - name: swig
@@ -579,14 +567,13 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.hpp ${FLATPAK_DEST}/include/rdkit/coordgen/
-      - cp -a 
-        ${FLATPAK_BUILDER_BUILDDIR}/Code/GraphMol/DistGeomHelpers/BoundsMatrixBuilderDetails.h
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/Code/GraphMol/DistGeomHelpers/BoundsMatrixBuilderDetails.h
         ${FLATPAK_DEST}/include/rdkit/GraphMol/DistGeomHelpers/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_09_1
-        commit: fece8caa860bdf6c9c82bdb9253f22a0cf87150c
+        tag: Release_2026_09_2
+        commit: f86b7dc9b31e2531200bbd1f54589bcbd968bb05
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -603,8 +590,7 @@ modules:
         sha256: dffe216320fcbd4a230f425416039bdcb5691f930d9e18983d8b5bc18d8410a6
         strip-components: 0
       - type: archive
-        url: 
-          https://github.com/rareylab/RingDecomposerLib/archive/refs/tags/v1.1.3_rdkit.tar.gz
+        url: https://github.com/rareylab/RingDecomposerLib/archive/refs/tags/v1.1.3_rdkit.tar.gz
         sha256: 944b5816712a48bbf88aa25d4300ce11871ddf6e971218eac08f90ed2192f715
         strip-components: 0
       - type: archive
