@@ -567,12 +567,13 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/include/rdkit/coordgen
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.h ${FLATPAK_DEST}/include/rdkit/coordgen/
       - cp -a ${FLATPAK_BUILDER_BUILDDIR}/External/CoordGen/coordgen/*.hpp ${FLATPAK_DEST}/include/rdkit/coordgen/
-      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/Code/GraphMol/DistGeomHelpers/BoundsMatrixBuilderDetails.h ${FLATPAK_DEST}/include/rdkit/GraphMol/DistGeomHelpers/
+      - cp -a ${FLATPAK_BUILDER_BUILDDIR}/Code/GraphMol/DistGeomHelpers/BoundsMatrixBuilderDetails.h
+        ${FLATPAK_DEST}/include/rdkit/GraphMol/DistGeomHelpers/
     sources:
       - type: git
         url: https://github.com/rdkit/rdkit
-        tag: Release_2026_09_1
-        commit: fece8caa860bdf6c9c82bdb9253f22a0cf87150c
+        tag: Release_2026_09_2
+        commit: f86b7dc9b31e2531200bbd1f54589bcbd968bb05
         x-checker-data:
           type: git
           tag-pattern: ^Release_([0-9]+_[0-9]+_[0-9]+)$
@@ -655,8 +656,8 @@ modules:
       - -DBUILD_SHARED_LIBS=ON
     sources:
       - type: archive
-        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.3.0.tar.gz
-        sha256: f05b3549465f1bb3c5033a05395c372c0982ed1d166608185b3cc8c5c7e98071
+        url: https://github.com/simdutf/simdutf/archive/refs/tags/v9.4.0.tar.gz
+        sha256: 361555059c963a1e5d78f3c7d42f35a19722b0333e6385994ff0fe7d80a5786a
         x-checker-data:
           type: anitya
           project-id: 378662
@@ -672,8 +673,8 @@ modules:
       - -DFASTFLOAT_BENCHMARKS=OFF
     sources:
       - type: archive
-        url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.3.2.tar.gz
-        sha256: 71bb9e865b888df01351558db5a39586d13ea97ada162156b3a07784d8c1b26b
+        url: https://github.com/fastfloat/fast_float/archive/refs/tags/v8.4.0.tar.gz
+        sha256: 0bf4277827259720028bbef6c11d400f07482608bea5952b289baaef6af141a4
         x-checker-data:
           type: anitya
           project-id: 214353
@@ -695,8 +696,8 @@ modules:
       - -D_systemd=true
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.84.1/vte-0.84.1.tar.gz
-        sha256: 9f73468982a339cd1eb942beb7d348a5564c9ed48473ad1690c791f8474916ec
+        url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.84.2/vte-0.84.2.tar.gz
+        sha256: d4fc847ef0c322de3ed5d12f4e5071a8443cb4ec7a1db90cd5e646b875cd2fea
         x-checker-data:
           type: anitya
           project-id: 10895
